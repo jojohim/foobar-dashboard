@@ -7,7 +7,24 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <header>
+      <img>
+      <div id="helpline"></div>
+      <div id="timeDate"></div>
+    </header>
+    <section id="orders"></section>
+    <template id="orderCard">
+      <h3 class="tableNumber">TABLE NUMBER</h3>
+      <h3 class="timestamp">TIMESTAMP</h3>
+      <h3 class="order">ORDER</h3>
+      <h3 class="orderTotal">TOTAL</h3>
+      <button class="done">DONE</button>
+    </template>
+    <section id="taps"></section>
+    <template id="tapChart">
+      <canvas id="tap"></canvas>
+    </template>
     <script type="module" src="/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>
