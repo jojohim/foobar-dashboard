@@ -1,5 +1,7 @@
 import './styles.scss'
 
+//TEST TEST 
+
 window.addEventListener("DOMContentLoaded", start);
 
 function start() {
