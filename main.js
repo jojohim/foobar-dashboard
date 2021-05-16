@@ -70,6 +70,7 @@ function convertTime(epoch){
 
 function makeChartFromTaps(tap){
 /*
+  console.log(tap);
 //CREATE COPY
 
 const copy = document.querySelector("template#tapChart").content.cloneNode(true);
