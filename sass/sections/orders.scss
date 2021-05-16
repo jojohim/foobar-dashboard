@@ -1,0 +1,22 @@
+#orders{
+    background-color:#3E3A6A ;
+    height: 92vh;
+}
+
+#filterButtons{
+    display: flex;
+    justify-content: center;
+
+    input{
+        margin: 1vw 1vw 0 1vw;
+    }
+}
+
+.orderContainer{
+    background-color: white;
+    margin: 1vw;
+    padding: 2vw;
+    border-radius: 50px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+

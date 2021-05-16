@@ -1,4 +1,4 @@
-import './styles.scss'
+import './sass/styles.scss'
 
 //TEST TEST 
 

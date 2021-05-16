@@ -1,0 +1,29 @@
+body {
+        background: rgba(248,247,255,1.0);
+        margin: auto 0;
+    }
+
+main {
+        height: 90vh;
+        display: grid;
+        grid-template-columns:  30% 25% 15% 30%;
+        grid-template-rows: 1fr 1fr;
+    }
+
+#orders{
+    grid-column: 1;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+#notes{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#bartenders{
+    grid-column: 4;
+    grid-row: 1;
+}
+
+
