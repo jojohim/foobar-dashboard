@@ -1,8 +1,9 @@
 import './sass/styles.scss'
 
-//TEST TEST 
-
 window.addEventListener("DOMContentLoaded", start);
+
+//GLOBAL ARRAYS
+let queueSelected = true;
 
 function start() {
   loadJSON();
@@ -19,8 +20,22 @@ async function loadJSON(){
 function handleData(JSONdata){
 
   //HANDLE ORDERS
-  const orders = JSONdata.queue
-  orders.forEach(displayOrder) //for each order display
+  console.log(JSONdata);
+  const orders = JSONdata.queue;
+  const serving = JSONdata.serving;
+
+  document.querySelector(".queueFilter").value = `Queue (${orders.length})`;
+  document.querySelector(".servingFilter").value = `Serving (${serving.length})`;
+
+  if (queueSelected){
+  orders.forEach(displayOrder); //for each order display
+  } else{
+    serving.forEach(displayOrder);
+  }
+
+  if (orders.length == 0){
+    document.getElementById("noOrdersPlaceholder").classList.remove("hidden");
+  } //if order is 0 display default
 
   //HANDLE TAPS
   const taps = JSONdata.taps;
@@ -29,7 +44,6 @@ function handleData(JSONdata){
   //HANDLE BARTENDERS
   const bartenders = JSONdata.bartenders;
   bartenders.forEach(displayBartender);
-
 }
 
 function displayBartender(bartender){
@@ -42,8 +56,6 @@ function displayBartender(bartender){
   copy.querySelector(".bartenderServing").textContent = bartender.servingCustomer;
   //append 
   document.querySelector("#bartenders").appendChild(copy);
-
-
 }
 
 function displayOrder(order){
@@ -64,8 +76,15 @@ function displayOrder(order){
 
 
 function convertTime(epoch){   
-  ///////to do: make time look pretty  
-    return new Date(epoch);
+  ///////to do: make time look pretty 
+  const time = new Date(epoch);
+  const dd = String(time.getDate()).padStart(2, '0'); 
+  const mm = String(time.getMonth() + 1).padStart(2, '0');
+  const year = time.getFullYear();
+  const hours = time.getHours();
+  const minutes = String(time.getMinutes()).padStart(2, '0');
+  const editedTime = `${dd}-${mm}-${year} ${hours}:${minutes}`
+  return editedTime;
 }
 
 function makeChartFromTaps(tap){

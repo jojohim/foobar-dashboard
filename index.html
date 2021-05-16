@@ -9,23 +9,28 @@
   <body>
     <header>
       <img id="logo" src="foobar-logo-orange.svg">
-      <div id="helpline">Phone: +45 50 12 74 06</div>
-      <div id="timeDate">20:18<br>04/06/2021</div>
+      <div class="headerInfo">
+        <p>Helpline: +45 50 12 74 06</p>
+        <p>21-05-2021 19:51</p>
+      </div>
     </header>
     <main>
     <section id="orders">
       <div id="filterButtons">
-      <input type="button" value="Queue">
-      <input type="button" value="Serving">
+      <input type="button" class="orderStatusFilter queueFilter active" value="Queue">
+      <input type="button" class="orderStatusFilter servingFilter" value="Serving">
     </div>
+    <h2 id="noOrdersPlaceholder" class="hidden">No new orders</h2>
     </section>
     <template id="orderCard">
       <div class="orderContainer">
+      <div class="orderHeader">
       <h3 class="tableNumber">TABLE NUMBER</h3>
-      <h3 class="timestamp">TIMESTAMP</h3>
-      <h3 class="order">ORDER</h3>
+      <p class="timestamp">TIMESTAMP</p>
+    </div>
+      <p class="order">ORDER</p>
       <h3 class="orderTotal">TOTAL</h3>
-      <button class="done">DONE</button>
+      <input type="button" class="serveButton" value="Serve">
       </div>
     </template>
     <section id="taps"></section>
