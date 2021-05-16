@@ -12,7 +12,9 @@
       <div id="helpline"></div>
       <div id="timeDate"></div>
     </header>
-    <section id="orders"></section>
+    <section id="orders">
+      <h2>ORDERS</h2>
+    </section>
     <template id="orderCard">
       <h3 class="tableNumber">TABLE NUMBER</h3>
       <h3 class="timestamp">TIMESTAMP</h3>
@@ -23,6 +25,15 @@
     <section id="taps"></section>
     <template id="tapChart">
       <canvas id="tap"></canvas>
+    </template>
+    <section id="bartenders">
+      <h1>BARTENDERS</h1>
+    </section>
+    <template id="bartenderCard">
+      <img>
+      <h3 class="bartenderStatus">STATUS</h3>
+      <h3 class="bartenderName">NAME</h3>
+      <h3 class="bartenderServing">SERVING</h3>
     </template>
     <script type="module" src="/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
