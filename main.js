@@ -48,15 +48,19 @@ function handleData(JSONdata){
 
 }
 
-setInterval(handleOrders, 5000)
+setInterval(handleOrders, 10000)
 handleOrders();
   //HANDLE TAPS
   const taps = JSONdata.taps;
   taps.forEach(makeChartFromTaps);
 
-  //HANDLE BARTENDERS
+  function handleBartenders(){
+    document.querySelector("#bartenders").innerHTML = "";
   const bartenders = JSONdata.bartenders;
   bartenders.forEach(displayBartender);
+  }
+  setInterval(handleBartenders, 5000)
+handleBartenders();
 }
 
 
