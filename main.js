@@ -21,21 +21,37 @@ function handleData(JSONdata){
 
   //HANDLE ORDERS
   console.log(JSONdata);
+
+  //call handle order every few seconds
+
+  function handleOrders(){
   const orders = JSONdata.queue;
   const serving = JSONdata.serving;
+
+  console.log(serving.length);
 
   document.querySelector(".queueFilter").value = `Queue (${orders.length})`;
   document.querySelector(".servingFilter").value = `Serving (${serving.length})`;
 
   if (queueSelected){
-  orders.forEach(displayOrder); //for each order display
+  orders.forEach(displayOrder);
+  document.querySelector(".servingFilter").classList.remove("active");
+  document.querySelector(".queueFilter").classList.add("active"); //for each order display
   } else{
     serving.forEach(displayOrder);
+    document.querySelector(".servingFilter").classList.add("active");
+    document.querySelector(".queueFilter").classList.remove("active");
   }
 
-  if (orders.length == 0){
+  if (orders.length == 0 && queueSelected){
     document.getElementById("noOrdersPlaceholder").classList.remove("hidden");
-  } //if order is 0 display default
+  } else{
+    document.getElementById("noOrdersPlaceholder").classList.add("hidden");
+  } 
+
+}
+
+setInterval(handleOrders, 5000)
 
   //HANDLE TAPS
   const taps = JSONdata.taps;
@@ -45,6 +61,7 @@ function handleData(JSONdata){
   const bartenders = JSONdata.bartenders;
   bartenders.forEach(displayBartender);
 }
+
 
 function displayBartender(bartender){
   console.log(bartender);
