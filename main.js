@@ -3,7 +3,7 @@ import './sass/styles.scss'
 window.addEventListener("DOMContentLoaded", start);
 
 //GLOBAL ARRAYS
-let queueSelected = true;
+let queueSelected = false;
 
 function start() {
   loadJSON();
@@ -32,12 +32,12 @@ function handleData(JSONdata){
 
   document.querySelector(".queueFilter").value = `Queue (${orders.length})`;
   document.querySelector(".servingFilter").value = `Serving (${serving.length})`;
-
   if (queueSelected){
   orders.forEach(displayOrder);
   document.querySelector(".servingFilter").classList.remove("active");
   document.querySelector(".queueFilter").classList.add("active"); //for each order display
   } else{
+    document.querySelector("#orders .orderList").innerHTML = "";
     serving.forEach(displayOrder);
     document.querySelector(".servingFilter").classList.add("active");
     document.querySelector(".queueFilter").classList.remove("active");
@@ -52,7 +52,7 @@ function handleData(JSONdata){
 }
 
 setInterval(handleOrders, 5000)
-
+handleOrders();
   //HANDLE TAPS
   const taps = JSONdata.taps;
   taps.forEach(makeChartFromTaps);
@@ -88,7 +88,8 @@ function displayOrder(order){
 
   copy.querySelector(".orderTotal").textContent = `Total: ${order.order.length}`;
   //append 
-  document.querySelector("#orders").appendChild(copy);
+  document.querySelector("#orders .orderList").appendChild(copy);
+
 }
 
 
@@ -105,7 +106,7 @@ function convertTime(epoch){
 }
 
 function makeChartFromTaps(tap){
-/*
+
 //CREATE COPY
 
 const copy = document.querySelector("template#tapChart").content.cloneNode(true);
@@ -134,11 +135,11 @@ const config = {
 /////render
 
 var Tap = new Chart(
-  copy.getElementById('tap'),
+  copy.querySelector('.tap'),
   config
   );
 
 //APPEND CHILD
 document.querySelector("#taps").appendChild(copy);
-*/
+
 }
