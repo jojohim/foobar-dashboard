@@ -72,7 +72,7 @@ function displayBartender(bartender){
   copy.querySelector(".bartenderStatus").textContent = bartender.status;
   copy.querySelector(".bartenderName").textContent = bartender.name;
   copy.querySelector(".bartenderServing").textContent = bartender.servingCustomer;
-  copy.querySelector(".bartenderPhoto").src = "/user.svg";
+  copy.querySelector(".bartenderPhoto").src = "user.svg";
   //append 
   document.querySelector("#bartenderCards").appendChild(copy);
 }
