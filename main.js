@@ -20,15 +20,12 @@ async function loadJSON(){
 function handleData(JSONdata){
 
   //HANDLE ORDERS
-  console.log(JSONdata);
 
   //call handle order every few seconds
 
   function handleOrders(){
   const orders = JSONdata.queue;
   const serving = JSONdata.serving;
-
-  console.log(serving.length);
 
   document.querySelector(".queueFilter").value = `Queue (${orders.length})`;
   document.querySelector(".servingFilter").value = `Serving (${serving.length})`;
@@ -105,41 +102,63 @@ function convertTime(epoch){
   return editedTime;
 }
 
-function makeChartFromTaps(tap){
+function makeChartFromTaps(tap) {
 
-//CREATE COPY
+ //CREATE COPY
+ 
+ const copy = document.querySelector("template#tapChart").content.cloneNode(true);
+ //give id to each
+ copy.querySelector(".tap").dataset.id = tap.id;
+ //POPULATE COPY
 
-const copy = document.querySelector("template#tapChart").content.cloneNode(true);
+ ///FOR LABELLING
 
-//POPULATE COPY
-/////setup
+ const tapLevelInPints = tap.level/10;
+ copy.querySelector(".tapName").textContent = tap.beer;
+ copy.querySelector(".tapAmount").textContent = `${tapLevelInPints} Pints`;
+ ///FOR CHART
+ /////setup
+ 
+ const data = {
+ datasets: [{
+ label: tap.beer,
+ data: [tapLevelInPints, 250-tapLevelInPints],
+ backgroundColor: [getColorForChart(), "transparent"],
+ borderWidth: 1,
+ borderColor: "#E4E0FF",
+ }],
+ };
 
-const data = {
-  datasets: [{
-    label: tap.beer,
-    data: [240, 10],
-    backgroundColor: [
-      'rgba(88,221,107,1.0)',
-      'transparent',
-    ],
-}],
-};
 
-//////config
+  function getColorForChart(){
+    if(tapLevelInPints >= 100){
+      return "rgba(88,221,107,1.0)";
+    } else if(tapLevelInPints < 100 && tapLevelInPints >= 50){
+      return "rgba(229,186,88,1.0)";
+    } else if(tapLevelInPints < 50){
+      return "rgba(221,114,88,1.0)"};
+  }
 
-const config = {
-  type: 'doughnut',
-  data: data,
-};
+ //////config
+ 
+ const config = {
+ type: "doughnut",
+ data: data,
+ options: {
+  cutout: "75%",
+ }
+ };
 
-/////render
+ //APPEND CHILD
+ document.querySelector("#taps").appendChild(copy);
+ 
+ /////render
+ 
+ var Tap = new Chart(
+ document.querySelector(`.tap[data-id="${tap.id}"]`),
+ config
+ );
+ }
 
-var Tap = new Chart(
-  copy.querySelector('.tap'),
-  config
-  );
 
-//APPEND CHILD
-document.querySelector("#taps").appendChild(copy);
 
-}

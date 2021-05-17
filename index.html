@@ -29,15 +29,24 @@
       <div class="orderHeader">
       <h3 class="tableNumber">TABLE NUMBER</h3>
       <p class="timestamp">TIMESTAMP</p>
-    </div>
+      </div>
       <p class="order">ORDER</p>
       <h3 class="orderTotal">TOTAL</h3>
       <input type="button" class="serveButton" value="Serve">
       </div>
     </template>
-    <section id="taps"></section>
+    <section id="storage">
+      <h1>Storage</h1>
+      <div id="taps"></div>
+    </section>
     <template id="tapChart">
-      <canvas id="tap"></canvas>
+    <article class="tapContainer">
+        <h3 class="tapName"></h3>
+      <div class="chartContainer">
+        <canvas class="tap"></canvas>
+        <p class="tapAmount"></p>
+      </div>
+    </article>
     </template>
     <section id="bartenders">
       <h1>BARTENDERS</h1>
