@@ -55,7 +55,7 @@ handleOrders();
   taps.forEach(makeChartFromTaps);
 
   function handleBartenders(){
-    document.querySelector("#bartenders").innerHTML = "";
+    document.querySelector("#bartenderCards").innerHTML = "";
   const bartenders = JSONdata.bartenders;
   bartenders.forEach(displayBartender);
   }
@@ -72,8 +72,9 @@ function displayBartender(bartender){
   copy.querySelector(".bartenderStatus").textContent = bartender.status;
   copy.querySelector(".bartenderName").textContent = bartender.name;
   copy.querySelector(".bartenderServing").textContent = bartender.servingCustomer;
+  copy.querySelector(".bartenderPhoto").src = "/user.svg";
   //append 
-  document.querySelector("#bartenders").appendChild(copy);
+  document.querySelector("#bartenderCards").appendChild(copy);
 }
 
 function displayOrder(order){

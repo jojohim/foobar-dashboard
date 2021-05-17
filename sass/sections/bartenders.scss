@@ -5,3 +5,18 @@
     border-radius: 50px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
+
+img.bartenderPhoto{
+    height: 4vw;
+}
+
+article#bartender{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid rgba(201,193,255,1.0);
+    margin: 1vw 0;
+    padding: 1vw;
+    border-radius: 50px;
+}
+
