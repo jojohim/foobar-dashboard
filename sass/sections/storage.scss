@@ -1,0 +1,44 @@
+
+#storage{
+    background-color: white;
+    margin: 0vw 1vw 1vw 2vw;
+    padding: 1vw;
+    border-radius: 50px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+
+////had to use important to overwrite the default settings by charts.js
+canvas{
+    width:6vw !important;
+    height:6vw !important;
+    position: relative;
+}
+
+#taps{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tapName{
+    width: 8vw;
+    height: min-content;
+    margin: auto;
+    text-align: center;
+}
+
+
+.tapContainer{
+    display: flex;
+    flex-direction: column;
+    align-items:  center;
+    margin: 2vh 0 2vh 0;
+}
+
+.tapAmount{
+    text-align: center;
+    margin-top:-3vw;
+}

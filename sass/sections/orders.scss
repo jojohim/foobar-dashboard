@@ -1,6 +1,7 @@
 #orders{
-    background-color:#3E3A6A ;
+    background-color:rgba(56,52,105,1.0) ;
     height: 92vh;
+    overflow: scroll;
 }
 
 #filterButtons{
@@ -13,10 +14,24 @@
 }
 
 .orderContainer{
+    display: flex;
+    flex-direction: column;
     background-color: white;
-    margin: 1vw;
+    margin: 1vw 4vw;
     padding: 2vw;
     border-radius: 50px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
+.orderHeader{
+    display: flex;
+    justify-content: space-between;
+}
+.orderTotal{
+    text-align: right;
+}
+
+#noOrdersPlaceholder{
+    text-align: center;
+    margin-top: 4vh;
+}
