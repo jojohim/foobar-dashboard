@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
   <body>
-    <header>
-      <img id="logo" src="foobar-logo-orange.svg">
-      <div class="headerInfo">
-        <p>Helpline: +45 50 12 74 06</p>
-        <p>21-05-2021 19:51</p>
-      </div>
-    </header>
     <main>
+      <header>
+        <div class="headerInfo">
+          <p>Helpline: +45 50 12 74 06</p>
+          <p class="dateTime">21-05-2021 19:51</p>
+        </div>
+      </header>
     <section id="orders">
       <div id="filterButtons">
-      <input type="button" class="orderStatusFilter queueFilter active" value="Queue">
+      <input type="button" class="orderStatusFilter queueFilter selected" value="Queue">
       <input type="button" class="orderStatusFilter servingFilter" value="Serving">
     </div>
     <div class="orderList"></div>
@@ -35,12 +35,24 @@
       </div>
     </template>
     <section id="storage">
-      <h1>Storage</h1>
-      <div id="taps"></div>
+      <nav id="storage-nav">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-taps-tab" aria-controls="taps" data-toggle="tab" href="#taps" role="tab" aria-selected="true">Bar Levels</a>
+        <a class="nav-item nav-link" id="nav-kegs-tab" aria-controls="kegs" data-toggle="tab" href="#kegs" role="tab" aria-selected="false">Keg Storage</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="taps" role="tabpanel" aria-labelledby="nav-taps-tab"></div>
+      <div class="tab-pane fade show" id="kegs" role="tabpanel" aria-labelledby="nav-kegs-tab"></div>
+    </div>
     </section>
+    <template id="kegStorage">
+      <p class="kegName"></p>
+      <p class="kegAmount"></p>
+    </template>
     <template id="tapChart">
     <article class="tapContainer">
-        <h3 class="tapName"></h3>
+        <p class="tapName"></p>
       <div class="chartContainer">
         <canvas class="tap"></canvas>
         <p class="tapAmount"></p>
@@ -58,7 +70,7 @@
       <h3 class="bartenderName">NAME</h3>
       <h3 class="bartenderServing">SERVING</h3>
     </div>
-      <h3 class="bartenderStatus">STATUS</h3>
+      <p class="bartenderStatus">STATUS</p>
       </article>
     </template>
     <section id="notes">
@@ -69,5 +81,8 @@
   </main>
     <script type="module" src="/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>

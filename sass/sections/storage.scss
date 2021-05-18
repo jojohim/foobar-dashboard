@@ -2,12 +2,10 @@
 #storage{
     background-color: white;
     margin: 0vw 1vw 1vw 2vw;
-    padding: 1vw;
+    padding: 2vw;
     border-radius: 50px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-
-
 
 ////had to use important to overwrite the default settings by charts.js
 canvas{
@@ -24,7 +22,7 @@ canvas{
 }
 
 .tapName{
-    width: 8vw;
+    width: 9vw;
     height: min-content;
     margin: auto;
     text-align: center;
@@ -42,3 +40,8 @@ canvas{
     text-align: center;
     margin-top:-3vw;
 }
+
+#storage-nav{
+    font-family: Montserrat;
+}
+

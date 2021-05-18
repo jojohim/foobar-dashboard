@@ -5,10 +5,11 @@ window.addEventListener("DOMContentLoaded", start);
 //GLOBAL ARRAYS
 let serving = [];
 let orders = [];
-let queueSelected = true;
+let queueSelected = false;
 
 function start() {
   loadJSON();
+  document.querySelector(".dateTime").textContent = convertTime(new Date);
 }
 
 async function loadJSON(){
@@ -20,7 +21,7 @@ async function loadJSON(){
 }
 
 function handleData(JSONdata){
-
+console.log(JSONdata);
   //HANDLE ORDERS
 
   //call handle order every few seconds
@@ -63,11 +64,14 @@ handleOrders();
   }
   setInterval(handleBartenders, 5000)
 handleBartenders();
+
+//HANDLE KEG STORAGE
+const kegs = JSONdata.storage
+kegs.forEach(displayKegStorage);
 }
 
 
 function displayBartender(bartender){
-  console.log(bartender);
   //create clone
   const copy = document.querySelector("template#bartenderCard").content.cloneNode(true);
   //populate clone
@@ -110,6 +114,18 @@ function convertTime(epoch){
   return editedTime;
 }
 
+function displayKegStorage(keg){
+  console.log(keg)
+  //CREATE COPY
+  const copy = document.querySelector("template#kegStorage").content.cloneNode(true);
+
+  //POPULATE
+  copy.querySelector(".kegName").textContent = keg.name;
+  copy.querySelector(".kegAmount").textContent = keg.amount;
+
+  //APPEND
+  document.getElementById("kegs").appendChild(copy);
+}
 function makeChartFromTaps(tap) {
 
  //CREATE COPY

@@ -1,5 +1,6 @@
 //////FONTS 
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 h1,
 h2,
@@ -7,10 +8,24 @@ h3,
 p{
     color: rgba(62,58,106,1.0);
     font-weight: 400;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: auto 0;
 }
 
+p{
+    font-size: clamp(14px, 0.9em, 0.9em);
+}
+
+h1{
+    font-size: clamp(24px, 1em, 1em);
+}
+
+h2{
+    font-size: clamp(22px, 1em, 1em);
+}
+h3{
+    font-size: clamp(20px, 0.8em, 0.8em);
+}
 #noOrdersPlaceholder{
     color: white;
 }
@@ -36,7 +51,7 @@ input[type=button]:hover{
 }
 
 .orderStatusFilter:hover,
-.active{
+.selected{
     background-color:rgba(248,247,255,1.0);
     color: rgba(62,58,106,1.0);
 }
