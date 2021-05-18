@@ -2,10 +2,14 @@ import './sass/styles.scss'
 
 window.addEventListener("DOMContentLoaded", start);
 
+//RESULTS FROM FETCH
+
+let ordersResponseArray = [];
+
 //GLOBAL ARRAYS
-let serving = [];
-let orders = [];
-let queueSelected = false;
+let queueSelected = true;
+let globalQueue =[];
+let globalServing = [];
 
 function start() {
   loadJSON();
@@ -21,24 +25,38 @@ async function loadJSON(){
 }
 
 function handleData(JSONdata){
-console.log(JSONdata);
+
+  console.log(JSONdata);
+  const orders = JSONdata.queue;
+  const serving = JSONdata.serving;
+
+  //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
+  ////for queue
+  orders.forEach(order => {
+    const queueItem = getItems(order);
+    globalQueue.push(queueItem);
+});
+  ////for serving 
+
+  serving.forEach(serving => {
+    const servingItem = getItems(serving);
+    globalServing.push(servingItem);
+  })
   //HANDLE ORDERS
 
   //call handle order every few seconds
 
   function handleOrders(){
-  const orders = JSONdata.queue;
-  const serving = JSONdata.serving;
 
-  document.querySelector(".queueFilter").value = `Queue (${orders.length})`;
-  document.querySelector(".servingFilter").value = `Serving (${serving.length})`;
+  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
+  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
   if (queueSelected){
-  orders.forEach(displayOrder);
+  globalQueue.forEach(displayOrder);
   document.querySelector(".servingFilter").classList.remove("active");
   document.querySelector(".queueFilter").classList.add("active"); //for each order display
   } else{
     document.querySelector("#orders .orderList").innerHTML = "";
-    serving.forEach(displayOrder);
+    globalServing.forEach(displayOrder);
     document.querySelector(".servingFilter").classList.add("active");
     document.querySelector(".queueFilter").classList.remove("active");
   }
@@ -70,6 +88,17 @@ const kegs = JSONdata.storage
 kegs.forEach(displayKegStorage);
 }
 
+function getItems(order){
+
+  //call clean order to clean up order
+  return {
+    timestamp: convertTime(order.startTime),
+    order: order.order,
+    tableNumber: Math.floor(Math.random() * 5) + 1,
+    total: order.order.length,
+  }
+}
+
 
 function displayBartender(bartender){
   //create clone
@@ -88,13 +117,13 @@ function displayOrder(order){
   //create clone
   const copy = document.querySelector("template#orderCard").content.cloneNode(true);
   //populate clone
-  copy.querySelector(".tableNumber").textContent = `Table: ${Math.floor(Math.random() * 5) + 1}`; //random number between 1 & 5
-  copy.querySelector(".timestamp").textContent = convertTime(order.startTime);
+  copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5
+  copy.querySelector(".timestamp").textContent = order.timestamp;
 
   ////////to do: for each type of beer only display once and then show amount
   copy.querySelector(".order").textContent = `${order.order}`;
 
-  copy.querySelector(".orderTotal").textContent = `Total: ${order.order.length}`;
+  copy.querySelector(".orderTotal").textContent = `Total: ${order.total}`;
   //append 
   document.querySelector("#orders .orderList").appendChild(copy);
 
