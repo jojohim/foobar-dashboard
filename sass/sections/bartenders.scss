@@ -7,7 +7,8 @@
 }
 
 img.bartenderPhoto{
-    height: 4vw;
+    height: 3vw;
+    padding: 0;
 }
 
 #bartender{
@@ -16,7 +17,8 @@ img.bartenderPhoto{
     align-items: flex-start;
     border: 1px solid rgba(201,193,255,1.0);
     margin: 1vw 0;
-    padding: 1vw;
+    padding: 0.5vw;
     border-radius: 50px;
 }
+
 

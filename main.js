@@ -3,7 +3,9 @@ import './sass/styles.scss'
 window.addEventListener("DOMContentLoaded", start);
 
 //GLOBAL ARRAYS
-let queueSelected = false;
+let serving = [];
+let orders = [];
+let queueSelected = true;
 
 function start() {
   loadJSON();
@@ -45,11 +47,11 @@ function handleData(JSONdata){
   } else{
     document.getElementById("noOrdersPlaceholder").classList.add("hidden");
   } 
-
 }
 
 setInterval(handleOrders, 10000)
 handleOrders();
+
   //HANDLE TAPS
   const taps = JSONdata.taps;
   taps.forEach(makeChartFromTaps);
@@ -104,38 +106,10 @@ function convertTime(epoch){
   const hours = time.getHours();
   const minutes = String(time.getMinutes()).padStart(2, '0');
   const editedTime = `${dd}-${mm}-${year} ${hours}:${minutes}`
+
   return editedTime;
 }
 
-<<<<<<< HEAD
-function makeChartFromTaps(tap){
-/*
-  console.log(tap);
-//CREATE COPY
-
-const copy = document.querySelector("template#tapChart").content.cloneNode(true);
-
-//POPULATE COPY
-/////setup
-
-const data = {
-  datasets: [{
-    label: tap.beer,
-    data: [240, 10],
-    backgroundColor: [
-      'rgba(88,221,107,1.0)',
-      'transparent',
-    ],
-}],
-};
-
-//////config
-
-const config = {
-  type: 'doughnut',
-  data: data,
-};
-=======
 function makeChartFromTaps(tap) {
 
  //CREATE COPY
@@ -193,14 +167,6 @@ function makeChartFromTaps(tap) {
  config
  );
  }
->>>>>>> 2c4fc81f40911615d8f289abc12eb23fe5220123
 
 
 
-<<<<<<< HEAD
-//APPEND CHILD
-document.querySelector("#taps").appendChild(copy);
-*/
-}
-=======
->>>>>>> 2c4fc81f40911615d8f289abc12eb23fe5220123
