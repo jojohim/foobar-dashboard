@@ -11,9 +11,9 @@ let queueSelected = true;
 let globalQueue =[];
 let globalServing = [];
 
+
 function start() {
   loadJSON();
-  document.querySelector(".dateTime").textContent = convertTime(new Date);
 }
 
 async function loadJSON(){
@@ -68,7 +68,7 @@ function handleData(JSONdata){
   } 
 }
 
-setInterval(handleOrders, 10000)
+setInterval(handleOrders, 10000);
 handleOrders();
 
   //HANDLE TAPS
@@ -108,6 +108,17 @@ function displayBartender(bartender){
   copy.querySelector(".bartenderName").textContent = bartender.name;
   copy.querySelector(".bartenderServing").textContent = bartender.servingCustomer;
   copy.querySelector(".bartenderPhoto").src = "user.svg";
+
+  /////change colour of status 
+  copy.querySelector(".bartenderStatus").style.color = checkColorForStatus();
+
+  function checkColorForStatus(){
+if(bartender.status == "WORKING"){
+  return "rgba(88,221,107,1.0)";
+} else{
+  return "rgba(229,186,88,1.0)";
+}
+  }
   //append 
   document.querySelector("#bartenderCards").appendChild(copy);
 }
@@ -129,6 +140,13 @@ function displayOrder(order){
 
 }
 
+//DISPLAY CURRENT TIME IN CORNER
+function getCurrentTime(){
+  document.querySelector(".dateTime").textContent = convertTime(new Date);
+}
+
+setInterval(getCurrentTime, 1000);
+getCurrentTime();
 
 function convertTime(epoch){   
   ///////to do: make time look pretty 
@@ -212,6 +230,8 @@ function makeChartFromTaps(tap) {
  config
  );
  }
+
+
 
 
 

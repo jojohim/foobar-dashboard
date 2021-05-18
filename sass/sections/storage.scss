@@ -45,3 +45,13 @@ canvas{
     font-family: Montserrat;
 }
 
+.nav-item{
+    color: rgb(56,52,105);
+    transition: .25s;
+    font-size: clamp(20px, 1em, 1em);
+}
+
+.nav-item:hover{
+    background-color: rgb(56,52,105);
+    color: white;
+}

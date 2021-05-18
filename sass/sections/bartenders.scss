@@ -21,4 +21,9 @@ img.bartenderPhoto{
     border-radius: 50px;
 }
 
-
+.servingIcon{
+    height: clamp(25px, 2vw, 2vw);
+}
+.servingField{
+    display: flex;
+}
