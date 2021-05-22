@@ -1,14 +1,17 @@
 #notes{
     background-color: white;
-    border-radius: 50px;
-    margin: 0 1vw 1vw 2vw;
+    border-radius: $border-radius;
+    margin: 0vw 2vw 1vw 1vw;
     padding: 2vw;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+    position: relative;
 }
 
 .note{
-    border: 1px solid rgba(62,58,106,1.0);
+    border: 1px solid $secondary-color;
     border-radius: 10px;
     margin: 1vw 0;
     padding: 1vw;
 }
+

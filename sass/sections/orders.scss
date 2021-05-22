@@ -1,5 +1,5 @@
 #orders{
-    background-color:rgba(56,52,105,1.0) ;
+    background-color: $base-color;
     overflow: scroll;
 }
 
@@ -18,8 +18,8 @@
     background-color: white;
     margin: 1vw 4vw;
     padding: 2vw;
-    border-radius: 50px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 40px;
+    box-shadow: $box-shadow;
 }
 
 .orderHeader{

@@ -3,8 +3,9 @@
     background-color: white;
     margin: 0vw 1vw 1vw 2vw;
     padding: 2vw;
-    border-radius: 50px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
 }
 
 ////had to use important to overwrite the default settings by charts.js
@@ -46,12 +47,12 @@ canvas{
 }
 
 .nav-item{
-    color: rgb(56,52,105);
+    color: $base-color;
     transition: .25s;
     font-size: clamp(20px, 1em, 1em);
 }
 
 .nav-item:hover{
-    background-color: rgb(56,52,105);
+    background-color: $base-color;
     color: white;
 }

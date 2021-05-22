@@ -102,11 +102,10 @@ function getItems(order){
 
 function displayBartender(bartender){
   //create clone
-  const copy = document.querySelector("template#bartenderCard").content.cloneNode(true);
+  const copy = document.querySelector("template.bartenderCard").content.cloneNode(true);
   //populate clone
   copy.querySelector(".bartenderStatus").textContent = bartender.status;
   copy.querySelector(".bartenderName").textContent = bartender.name;
-  copy.querySelector(".bartenderServing").textContent = bartender.servingCustomer;
   copy.querySelector(".bartenderPhoto").src = "user.svg";
 
   /////change colour of status 
@@ -156,7 +155,7 @@ function convertTime(epoch){
   const year = time.getFullYear();
   const hours = time.getHours();
   const minutes = String(time.getMinutes()).padStart(2, '0');
-  const editedTime = `${dd}-${mm}-${year} ${hours}:${minutes}`
+  const editedTime = `${dd}-${mm}-${year}, ${hours}:${minutes}`
 
   return editedTime;
 }

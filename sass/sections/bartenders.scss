@@ -2,8 +2,10 @@
     padding: 2vw;
     background-color: white;
     margin: 0vw 2vw 1vw 1vw;
-    border-radius: 50px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+    position: relative;
 }
 
 img.bartenderPhoto{
@@ -11,19 +13,16 @@ img.bartenderPhoto{
     padding: 0;
 }
 
-#bartender{
+.bartender{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    border: 1px solid rgba(201,193,255,1.0);
+    border: 1px solid $secondary-color;
     margin: 1vw 0;
     padding: 0.5vw;
     border-radius: 50px;
 }
 
-.servingIcon{
-    height: clamp(25px, 2vw, 2vw);
-}
-.servingField{
-    display: flex;
+.bartender:first-child{
+    margin-top: 6vh;
 }

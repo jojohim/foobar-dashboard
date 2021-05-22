@@ -6,7 +6,7 @@ h1,
 h2,
 h3,
 p{
-    color: rgba(62,58,106,1.0);
+    color: $tertiary-color;
     font-weight: 400;
     font-family: 'Montserrat', sans-serif;
     margin: auto 0;
@@ -46,25 +46,36 @@ input[type=button]:hover{
 
 .orderStatusFilter{
     background-color: transparent;
-    border: 2px solid rgba(248,247,255,1.0);
-    color: rgba(248,247,255,1.0);
+    border: 2px solid white;
+    color: white;
 }
 
 .orderStatusFilter:hover,
 .selected{
-    background-color:rgba(248,247,255,1.0);
-    color: rgba(62,58,106,1.0);
+    background-color:white;
+    color: $base-color;
 }
 
 .serveButton{
-    background: rgba(62,58,106,1.0);
-    border: 2px solid rgba(62,58,106,1.0);
+    background: $base-color;
+    border: 2px solid $base-color;
     color: white;
     margin: 0 4vw 0 4vw;
 }
 
 .serveButton:hover{
     background-color: transparent;
-    color: rgba(62,58,106,1.0);
+    color: white;
 }
 
+//SCROLLBAR
+
+#orders::-webkit-scrollbar{
+    width: 10px;
+    height: auto;
+}
+
+#orders::-webkit-scrollbar-thumb{
+background-color: #336ac2;
+border-radius: 5px;
+}
