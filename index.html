@@ -23,7 +23,7 @@
     <div class="orderList"></div>
     <h2 id="noOrdersPlaceholder" class="hidden">No new orders</h2>
     </section>
-    <template id="orderCard">
+    <template id="orderCardQueue">
       <div class="orderContainer">
       <div class="orderHeader">
       <h3 class="tableNumber">TABLE NUMBER</h3>
@@ -32,6 +32,17 @@
       <p class="order">ORDER</p>
       <h3 class="orderTotal">TOTAL</h3>
       <input type="button" class="serveButton" value="Serve">
+      </div>
+    </template>
+     <template id="orderCardServe">
+      <div class="orderContainer">
+      <div class="orderHeader">
+      <h3 class="tableNumber">TABLE NUMBER</h3>
+      <p class="timestamp">TIMESTAMP</p>
+      </div>
+      <p class="order">ORDER</p>
+      <h3 class="orderTotal">TOTAL</h3>
+      <input type="button" class="serveButton" value="Done">
       </div>
     </template>
     <section id="storage">
