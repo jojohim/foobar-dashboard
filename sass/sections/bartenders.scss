@@ -1,5 +1,4 @@
 #bartenders{
-    padding: 2vw;
     background-color: white;
     margin: 0vw 2vw 1vw 1vw;
     border-radius: $border-radius;
@@ -26,3 +25,8 @@ img.bartenderPhoto{
 .bartender:first-child{
     margin-top: 6vh;
 }
+
+#bartenderCards{
+    padding: 2vw;
+}
+

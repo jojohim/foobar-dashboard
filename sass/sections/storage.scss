@@ -1,17 +1,16 @@
 
 #storage{
     background-color: white;
-    margin: 0vw 1vw 1vw 2vw;
-    padding: 2vw;
     border-radius: 0px 0px 20px 20px;
     box-shadow: $box-shadow;
-    overflow: hidden;
+    margin: 0vw 1vw 1vw 2vw;
+    overflow: scroll;
 }
 
 ////had to use important to overwrite the default settings by charts.js
 canvas{
-    width:6vw !important;
-    height:6vw !important;
+    width:clamp(100px,6vw, 6vw) !important;
+    height:clamp(100px,6vw, 6vw) !important;
     position: relative;
 }
 
@@ -23,7 +22,6 @@ canvas{
 }
 
 .tapName{
-    width: 9vw;
     height: min-content;
     margin: auto;
     text-align: center;
@@ -34,14 +32,17 @@ canvas{
     display: flex;
     flex-direction: column;
     align-items:  center;
-    margin: 2vh 0 2vh 0;
+    margin: 1vh 0 1vh 0;
     overflow: hidden;
     position: relative;
 }
 
 .tapAmount{
     text-align: center;
-    margin-top:-3vw;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+
 }
 
 #storage-nav{
@@ -49,12 +50,30 @@ canvas{
 }
 
 .nav-item{
-    color: $base-color;
-    transition: .25s;
+    color: white;
+    transition: 0.15s;
     font-size: clamp(20px, 1em, 1em);
 }
 
 .nav-item:hover{
     background-color: $base-color;
     color: white;
+}
+
+.chartContainer{
+    position: relative;
+}
+
+#nav-tab.nav.nav-tabs{
+    background-color: $base-color;
+    padding: 1vw 0 0 1vw;
+    
+}
+
+#tabs.tab-pane.active{
+    padding: 1vh 2vw;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    color: $base-color;
 }

@@ -6,7 +6,7 @@ body {
 main {
         height: 100vh;
         display: grid;
-        grid-template-columns:  30% 30% 15% 25%;
+        grid-template-columns:  30% 45% 25%;
         grid-template-rows: min-content 1fr 1fr;
     }
 
@@ -17,24 +17,30 @@ main {
 }
 
 #notes{
-    grid-column: 4;
+    grid-column: 3;
     grid-row: 3;
 }
 
 #bartenders{
-    grid-column: 4;
+    grid-column: 3;
     grid-row: 2;
 }
 
 #storage {
-    grid-column-start: 2;
-    grid-column-end: 4;
+    grid-column: 2;
     grid-row: 2;
 }
 
 header{
     grid-row: 1;
     grid-column-start: 2;
-    grid-column-end: 5;
+    grid-column-end: 4;
 }
 
+@media (max-width: 1000px) {
+    main{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+
+}

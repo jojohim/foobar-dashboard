@@ -83,9 +83,45 @@
     </template>
     <section id="notes">
       <h1 class="coloredHeader">Notes</h1>
+      <div id="notesContainer">
       <p class="note">We’re running low on Fairytale Ale, new kegs will arrive monday until then we’ll have to work with what we have.</p>
       <p class="note">Someone at table 18 forgot their keys yesterday. They will come in today to pick them up. They’re in the office safe.</p>
+   </div>
     </section>
+    <section id="beerInfo">
+      <div id="beerInfoHeader">
+      <h1>About Our Beers</h1>
+      <select id="beerTypeDropDown">
+        <option value="Fairytale Ale" selected>Fairytale Ale</option>
+        <option value ="El Hefe">El Hefe</option>
+        <option value ="GitHop">GitHop</option>
+        <option value ="Hollaback">Hollaback</option>
+        <option value ="Hoppily Ever After">Hoppily Ever After</option>
+        <option value ="Row 26">Row 26</option>
+        <option value ="Ruined Childhood">Ruined Childhood</option>
+        <option value ="Sleighride">Sleighride</option>
+        <option value ="Steampunk">Steampunk</option>
+      </select>
+    </div>
+    <div id="beerInfoContainer"></div>
+    </section>
+<template id="beerInfoTemplate">
+  <article class="beerInfoCard">
+  <div class="beerVisuals">
+    <div class="beerBottle">
+      <img class="bottleIcon">
+      <img class="labelIcon">
+    </div>
+    <h3 class="alcPercentage"></h3>
+    <h3 class="ranking"></h3>
+</div>
+<div class="beerInfoText">
+  <h2 class="beerName"></h2>
+  <h3 class="beerCategory"></h3>
+  <p class="beerFlavor"></p>
+</div>
+</article>
+</template>
   </main>
     <script type="module" src="/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

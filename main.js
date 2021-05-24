@@ -5,7 +5,6 @@ const headers = {
   "cache-control": "no-cache",
 };
 
-
 window.addEventListener("DOMContentLoaded", start);
 
 // Pretty arrow function
@@ -24,6 +23,8 @@ let globalServing = [];
 let globalTapLevels = [];
 let globalBartenders = [];
 
+console.log(document.querySelector("#beerTypeDropDown option").value);
+
 function start() {
   loadJSON();
   setEventListeners();
@@ -32,6 +33,7 @@ function start() {
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListeners();
+  onOptionChangeListener();
 }
 
 
@@ -39,28 +41,28 @@ function setEventListeners() {
 function setServeOrderListner(copy) {
   const button = copy.querySelector(".serveButton");
 
-  button.addEventListener("click", function () {
-    const id = parseInt(button.dataset.id);
-    const element = button.parentElement;
+  button.addEventListener("click", function () { //when serve is clicked 
+    const id = parseInt(button.dataset.id); //get id of button
+    const element = button.parentElement; //get parent element , i.e. order of button 
     let order;
 
     function getOrder(globalOrder) {
-      if (globalOrder.id === id) {
-        return globalOrder;
+      if (globalOrder.id === id) { //if the global order id is equal to id clicked 
+        return globalOrder; //return that specific order
       }
     }
 
-    if (queueSelected) {
-      if (globalBartenders.some(bartender => bartender.status === "READY")) {
-        order = globalQueue.find(getOrder);
-        const index = globalQueue.findIndex(getOrder);
-        globalQueue.splice(index, 1);
-        globalServing.push(order);
-        updateBartender(order, false);
-        element.remove();
+    if (queueSelected) { //if queue is selected
+      if (globalBartenders.some(bartender => bartender.status === "READY")) { //if some bartenders are READY
+        order = globalQueue.find(getOrder);  //go through globalQueue and find order
+        const index = globalQueue.findIndex(getOrder); //find index of the order
+        globalQueue.splice(index, 1); //splice from queue
+        globalServing.push(order); //add to serving
+        updateBartender(order, false); //update the bartender from ready to busy
+        element.remove(); 
       }
     } else {
-      order = globalServing.find(getOrder);
+      order = globalServing.find(getOrder); //if all bartenders are working do this
       const index = globalServing.findIndex(getOrder);
       globalServing.splice(index, 1);
       updateTapLevels(order);
@@ -85,6 +87,11 @@ function setToggleOrdersListeners() {
       }
     });
   });
+}
+
+function onOptionChangeListener(){
+  document.querySelector("#beerTypeDropDown").addEventListener("change", (event) => {
+  })
 }
 
 function updateTapLevels(order) {
@@ -135,11 +142,37 @@ function updateBartender(order, isWorking) {
 async function loadJSON() {
   const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
   const JSONdata = await dataResponse.json();
+  const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
+  const jsonBeerInfo = await beerInfoResponse.json()
 
   //once fetched, prepare data
   handleData(JSONdata);
+  handleBeerInfo(jsonBeerInfo);
 }
 
+function handleBeerInfo(beers){
+beers.forEach(checkIfBeerSelected);
+}
+
+function checkIfBeerSelected(beer){
+  console.log(beer.name);
+  if (beer.name == "Fairy Tale Ale"){
+    displayBeer(beer);
+  } else{
+    return;
+  }
+  
+}
+
+function displayBeer(beer){
+  const copy = document.getElementById("beerInfoTemplate").content.cloneNode(true);
+
+  copy.querySelector(".beerName").textContent = beer.name;
+  copy.querySelector(".beerCategory").textContent = beer.category;
+  copy.querySelector(".beerFlavor").textContent = beer.description.flavor;
+
+  document.querySelector("#beerInfoContainer").appendChild(copy);
+}
 function setOrders(data) {
   const orders = data.queue;
   const serving = data.serving;
@@ -190,12 +223,10 @@ function handleOrders() {
 function handleBartenders() {
   document.querySelector("#bartenderCards").innerHTML = "";
   const bartenders = globalBartenders;
-  console.log({bartenders});
   bartenders.forEach(displayBartender);
 }
 
 function handleData(JSONdata) {
-  console.log(JSONdata);
   setOrders(JSONdata);
   setTapLevels(JSONdata);
   setBartenders(JSONdata);
@@ -236,25 +267,29 @@ function getItems(order) {
 
 function displayBartender(bartender) {
   //create clone
-  const copy = document
-    .querySelector("template.bartenderCard")
-    .content.cloneNode(true);
+  const copy = document.querySelector("template.bartenderCard").content.cloneNode(true);
   //populate clone
 
-  console.log({bartender});
-
-  copy.querySelector(".bartenderStatus").textContent = bartender.status;
+  copy.querySelector(".bartenderStatus").textContent = getStatus();
   copy.querySelector(".bartenderName").textContent = bartender.name;
   copy.querySelector(".bartenderPhoto").src = "user.svg";
 
   /////change colour of status
-  copy.querySelector(".bartenderStatus").style.color = checkColorForStatus();
+  copy.querySelector(".bartenderStatus").style.color = getColorForStatus();
 
-  function checkColorForStatus() {
+  function getColorForStatus() {
     if (bartender.status == "WORKING") {
-      return "rgba(88,221,107,1.0)";
+      return "rgba(221,114,88,1.0)";
     } else {
-      return "rgba(229,186,88,1.0)";
+      return "rgba(88,221,107,1.0)";
+    }
+  }
+
+  function getStatus(){
+    if(bartender.status == "WORKING"){
+      return "Busy";
+    } else {
+      return "Ready";
     }
   }
   //append
@@ -317,11 +352,8 @@ function convertTime(epoch) {
 }
 
 function displayKegStorage(keg) {
-  console.log(keg);
   //CREATE COPY
-  const copy = document
-    .querySelector("template#kegStorage")
-    .content.cloneNode(true);
+  const copy = document.querySelector("template#kegStorage").content.cloneNode(true);
 
   //POPULATE
   copy.querySelector(".kegName").textContent = keg.name;
