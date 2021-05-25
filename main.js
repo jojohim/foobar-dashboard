@@ -34,6 +34,13 @@ function start() {
   setEventListeners();
 }
 
+
+// Adding all listeners
+function setEventListeners() {
+  setToggleOrdersListeners();
+  optionChangeListener();
+}
+
 async function loadJSON() {
   const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
   const JSONdata = await dataResponse.json();
@@ -46,104 +53,67 @@ async function loadJSON() {
 }
 
 function handleData(JSONdata) {
-  setOrders(JSONdata);
-  setTapLevels(JSONdata);
-  setBartenders(JSONdata);
+  console.log(JSONdata);
 
   //HANDLE ORDERS
-  setInterval(handleOrders, 1000);
-  handleOrders();
+  setInterval(function(){handleOrders(JSONdata)}, 10000);
+  handleOrders(JSONdata);
 
   //HANDLE TAPS
-  globalTapLevels.forEach(makeChartFromTaps);
+  //setInterval(function(){handleTaps(JSONdata.taps)}, 5000);
+  handleTaps(JSONdata.taps);
 
   // HANDLE BARTENDERS
-  setInterval(handleBartenders, 1000);
-  handleBartenders();
+  setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
+  handleBartenders(JSONdata.bartenders);
 
   //HANDLE KEG STORAGE
   const kegs = JSONdata.storage;
   kegs.forEach(displayKegStorage);
 }
 
-function setOrders(JSONdata) {
-  const orders = JSONdata.queue;
-  const serving = JSONdata.serving;
+function handleOrders(JSONdata) { 
+  //empty serving array
+  globalServing = [];
+  globalQueue = [];
+
+  //set variables
+  const queueItems = JSONdata.queue;
+  const servingItems = JSONdata.serving;
 
   //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
   ////for queue
-  orders.forEach((order) => {
-    const queueItem = getItems(order);
+  queueItems.forEach((queue) => {
+    const queueItem = getItems(queue);
     globalQueue.push(queueItem);
   });
   ////for serving
-  serving.forEach((serving) => {
+  servingItems.forEach((serving) => {
     const servingItem = getItems(serving);
     globalServing.push(servingItem);
   });
-}
 
-function handleOrders() { 
-  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
-  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
   if (queueSelected) {
-    document.querySelector("#orders .orderList").innerHTML = "";
+    document.querySelector(".orderList").innerHTML = "";
     globalQueue.forEach((order) => displayOrder(order, true));
     document.querySelector(".servingFilter").classList.remove("active");
     document.querySelector(".queueFilter").classList.add("active"); //for each order display
   } else {
-    document.querySelector("#orders .orderList").innerHTML = "";
+    document.querySelector(".orderList").innerHTML = "";
     globalServing.forEach((order) => displayOrder(order, false));
     document.querySelector(".servingFilter").classList.add("active");
     document.querySelector(".queueFilter").classList.remove("active");
   }
 
-  if (orders.length == 0 && queueSelected) {
-    document.getElementById("noOrdersPlaceholder").classList.remove("hidden");
-  } else {
-    document.getElementById("noOrdersPlaceholder").classList.add("hidden");
-  }
-}
+  console.log(globalQueue.length);
+  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
+  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
 
-// Adding all listeners
-function setEventListeners() {
-  setToggleOrdersListeners();
-  optionChangeListener();
 }
 
 // Individual listeners
-function setServeOrderListner(copy) {
-  const button = copy.querySelector(".serveButton");
-
-  button.addEventListener("click", function () { //when serve is clicked 
-    const id = parseInt(button.dataset.id); //get id of button
-    const element = button.parentElement; //get parent element , i.e. order of button 
-    let order;
-
-    function getOrder(globalOrder) {
-      if (globalOrder.id === id) { //if the global order id is equal to id clicked 
-        return globalOrder; //return that specific order
-      }
-    }
-
-    if (queueSelected) { //if queue is selected
-        order = globalQueue.find(getOrder);  //go through globalQueue and find order
-        const index = globalQueue.findIndex(getOrder); //find index of the order
-        globalQueue.splice(index, 1); //splice from queue
-        globalServing.push(order); //add to serving
-        element.remove(); 
-      } else {
-      order = globalServing.find(getOrder); //if all bartenders are working do this
-      const index = globalServing.findIndex(getOrder);
-      globalServing.splice(index, 1);
-      element.remove();
-    }
-  });
-}
-
 function setToggleOrdersListeners() {
   const buttons = document.querySelectorAll(".orderStatusFilter");
-
   buttons.forEach(function (button) {
     button.addEventListener("click", function () {
       if (!button.classList.contains("selected")) {
@@ -158,6 +128,8 @@ function setToggleOrdersListeners() {
   });
 }
 
+//STATIC BEER INFO
+
 function optionChangeListener(){
 beerDropdown.addEventListener("change", function (){
   document.querySelector("#beerInfoContainer").innerHTML = "";
@@ -166,7 +138,6 @@ beerDropdown.addEventListener("change", function (){
 }
 
 function checkBeer(){
-//document.querySelectorAll(".beerInfoCard").classList.toggle("hidden");
 filter = beerDropdown.options[beerDropdown.selectedIndex].value;
 globalBeers.forEach((beer) => {
   if(beer.name == filter){
@@ -177,12 +148,10 @@ globalBeers.forEach((beer) => {
 })
 }
 
-
 function handleBeerInfo(JSONbeers){
 
   //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
   ////for queue
-  console.log(JSONbeers);
   JSONbeers.forEach((beer) => {
     const beerItem = getBeerInfo(beer);
     globalBeers.push(beerItem);
@@ -219,19 +188,16 @@ function cleanBeerName(beerName){
   return cleanedName;
 }
 
-function setTapLevels(data) {
-  globalTapLevels = data.taps;
-}
+function handleBartenders(bartenders) {
 
-function setBartenders(data) {
-  globalBartenders = data.bartenders;
-}
+  //push bartenders to global Array
+  globalBartenders = bartenders;
 
-
-function handleBartenders() {
+  //make inner HTML nothing
   document.querySelector("#bartenderCards").innerHTML = "";
-  const bartenders = globalBartenders;
-  bartenders.forEach(displayBartender);
+
+  //for each bartender in global array display
+  globalBartenders.forEach(displayBartender);
 }
 
 function getItems(order) {
@@ -301,7 +267,7 @@ function displayOrder(order, isQueue) {
   const ul = document.createElement('ul');
   order.order.forEach(order => {
     const li = document.createElement('li');
-    li.textContent = `${order.name} ...... ${order.amount}`;
+    li.textContent = `${order.name} ............................ ${order.amount}`;
     ul.appendChild(li);
   })
 
@@ -310,7 +276,6 @@ function displayOrder(order, isQueue) {
   copy.querySelector(".serveButton").dataset.id = order.id;
 
   //append
-  setServeOrderListner(copy);
   document.querySelector("#orders .orderList").appendChild(copy);
 }
 
@@ -369,6 +334,12 @@ function getChartConfig(beer, tapLevelInPints) {
   };
 
   return config;
+}
+
+function handleTaps(taps){
+  globalTapLevels = [];
+  globalTapLevels = taps;
+  globalTapLevels.forEach(makeChartFromTaps);
 }
 
 function makeChartFromTaps(tap) {
