@@ -23,9 +23,9 @@ let globalServing = [];
 let globalTapLevels = [];
 let globalBartenders = [];
 let globalBeers = [];
-console.log(globalBeers)
+let beerDropdown =  document.querySelector("#beerTypeDropDown");
+let filter;
 
-console.log(document.querySelector("#beerTypeDropDown option").value);
 
 function start() {
   loadJSON();
@@ -35,7 +35,7 @@ function start() {
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListeners();
-  onOptionChangeListener();
+  optionChangeListener();
 }
 
 
@@ -91,10 +91,25 @@ function setToggleOrdersListeners() {
   });
 }
 
-function onOptionChangeListener(){
-  document.querySelector("#beerTypeDropDown").addEventListener("change", (event) => {
-  })
+function optionChangeListener(){
+beerDropdown.addEventListener("change", function (){
+  document.querySelector("#beerInfoContainer").innerHTML = "";
+  checkBeer(event);
+});
 }
+
+function checkBeer(event){
+//document.querySelectorAll(".beerInfoCard").classList.toggle("hidden");
+filter = beerDropdown.options[beerDropdown.selectedIndex].value;
+globalBeers.forEach((beer) => {
+  if(beer.name == filter){
+    displayBeer(beer);
+  } else{
+    return
+  }
+})
+}
+
 
 function updateTapLevels(order) {
   // Go through each beer in order and update the global 
@@ -145,30 +160,52 @@ async function loadJSON() {
   const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
   const JSONdata = await dataResponse.json();
   const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
-  const jsonBeerInfo = await beerInfoResponse.json()
+  const JSONbeers = await beerInfoResponse.json()
 
   //once fetched, prepare data
   handleData(JSONdata);
-  setBeerInfo(jsonBeerInfo);
+  handleBeerInfo(JSONbeers);
 }
 
-function setBeerInfo(beers){
-  console.log(beers);
-globalBeers = beers;
+function handleBeerInfo(JSONbeers){
+
+  //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
+  ////for queue
+  console.log(JSONbeers);
+  JSONbeers.forEach((beer) => {
+    const beerItem = getBeerInfo(beer);
+    globalBeers.push(beerItem);
+  });
+
+  displayBeer(globalBeers[0]);
 }
 
-function checkIfBeerSelected(beer, selected){
-
+function getBeerInfo(beer){
+  return {
+    name: beer.name,
+    category: beer.category,
+    ranking: beer.popularity,
+    alcLevel: beer.alc,
+    description: beer.description.overallImpression,
+  };
 }
 
 function displayBeer(beer){
   const copy = document.getElementById("beerInfoTemplate").content.cloneNode(true);
 
   copy.querySelector(".beerName").textContent = beer.name;
-  copy.querySelector(".beerCategory").textContent = beer.category;
-  copy.querySelector(".beerFlavor").textContent = beer.description.flavor;
+  copy.querySelector(".beerCategory").textContent = `Style: ${beer.category}`;
+  copy.querySelector(".beerFlavor").textContent = beer.description;
+  copy.querySelector(".alcPercentage").textContent = `${beer.alcLevel}%`;
+  copy.querySelector(".ranking").textContent = `#${beer.ranking}`;
+  copy.querySelector(".labelIcon").src = `${cleanBeerName(beer.name)}.png`
 
   document.querySelector("#beerInfoContainer").appendChild(copy);
+}
+
+function cleanBeerName(beerName){
+  const cleanedName = beerName.toLowerCase().replaceAll(' ', '');
+  return cleanedName;
 }
 function setOrders(data) {
   const orders = data.queue;
