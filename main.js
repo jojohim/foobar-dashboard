@@ -245,7 +245,7 @@ function handleData(JSONdata) {
 }
 
 function getItems(order) {
-  //call clean order to clean up order
+  //create new cleaned up order with amount and type of beer filtered
   const uniqueArray = [...new Set(order.order)];
   const parsedOrder = uniqueArray.map(item => ({
     name: item,
