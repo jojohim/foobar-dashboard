@@ -14,7 +14,25 @@
     padding: 1vw;
 }
 
+.note:first-child{
+    margin-top: 2vw;
+}
 #notesContainer{
     padding: 2vw;
     margin-top: 2vh;
 }
+
+.noteStamp{
+    display: flex;
+    margin-bottom: 0.5vw;
+
+    img{
+        height: clamp(16px, 0.7em, 0.7em);
+        margin-right: 0.5vw;
+    }
+
+    p{
+        font-size: clamp(12px, 0.7em, 0.7em);
+    }
+}
+

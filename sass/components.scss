@@ -71,12 +71,15 @@ input[type=button]:hover{
 
 //SCROLLBAR
 
-#orders::-webkit-scrollbar{
+#orders::-webkit-scrollbar,
+#notes::-webkit-scrollbar{
     width: 10px;
     height: auto;
 }
 
-#orders::-webkit-scrollbar-thumb{
+#orders::-webkit-scrollbar-thumb,
+#notes::-webkit-scrollbar-thumb{
 background-color: #336ac2;
 border-radius: 5px;
 }
+
