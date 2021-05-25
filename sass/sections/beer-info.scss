@@ -7,6 +7,80 @@
 }
 
 #beerInfoHeader{
+    background-color: $base-color;
+    padding: 1vw;
     display: flex;
+    overflow: hidden;
     justify-content: space-between;
+}
+
+img.bottleIcon{
+    height: clamp(20px,24vh, 22vh);
+}
+
+.beerInfoCard{
+    margin-top: 3em;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    animation: fade-in 0.5s ease-in-out;
+}
+
+.beerInfoText{
+    max-width: 30%;
+}
+
+.beerInfoText > *{
+    margin-bottom: 1vh;
+}
+
+@keyframes fade-in{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.alcPercentage,
+.ranking{
+    background-color: $secondary-color;
+    display: flex;
+    justify-content: center;
+    padding: 1vw;
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.alcPercentage{
+    margin-bottom: 1vh;
+}
+
+.beerBottle{
+    position: relative;
+}
+.beerVisuals{
+    display: flex;
+    align-items: flex-end;
+}
+
+.labelIcon{
+    max-width: 7vh;
+    position: absolute;
+    left: 5%;
+    top: clamp(14px,10vh, 10vh);
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+#beerTypeDropDown{
+    background-color: $base-color;
+    border: 1px solid white;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#beerTypeDropDown:focus{
+    outline: none;
 }
