@@ -34,12 +34,82 @@ function start() {
   setEventListeners();
 }
 
+async function loadJSON() {
+  const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
+  const JSONdata = await dataResponse.json();
+  const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
+  const JSONbeers = await beerInfoResponse.json()
+
+  //once fetched, prepare data
+  handleData(JSONdata);
+  handleBeerInfo(JSONbeers);
+}
+
+function handleData(JSONdata) {
+  setOrders(JSONdata);
+  setTapLevels(JSONdata);
+  setBartenders(JSONdata);
+
+  //HANDLE ORDERS
+  setInterval(handleOrders, 1000);
+  handleOrders();
+
+  //HANDLE TAPS
+  globalTapLevels.forEach(makeChartFromTaps);
+
+  // HANDLE BARTENDERS
+  setInterval(handleBartenders, 1000);
+  handleBartenders();
+
+  //HANDLE KEG STORAGE
+  const kegs = JSONdata.storage;
+  kegs.forEach(displayKegStorage);
+}
+
+function setOrders(JSONdata) {
+  const orders = JSONdata.queue;
+  const serving = JSONdata.serving;
+
+  //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
+  ////for queue
+  orders.forEach((order) => {
+    const queueItem = getItems(order);
+    globalQueue.push(queueItem);
+  });
+  ////for serving
+  serving.forEach((serving) => {
+    const servingItem = getItems(serving);
+    globalServing.push(servingItem);
+  });
+}
+
+function handleOrders() { 
+  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
+  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
+  if (queueSelected) {
+    document.querySelector("#orders .orderList").innerHTML = "";
+    globalQueue.forEach((order) => displayOrder(order, true));
+    document.querySelector(".servingFilter").classList.remove("active");
+    document.querySelector(".queueFilter").classList.add("active"); //for each order display
+  } else {
+    document.querySelector("#orders .orderList").innerHTML = "";
+    globalServing.forEach((order) => displayOrder(order, false));
+    document.querySelector(".servingFilter").classList.add("active");
+    document.querySelector(".queueFilter").classList.remove("active");
+  }
+
+  if (orders.length == 0 && queueSelected) {
+    document.getElementById("noOrdersPlaceholder").classList.remove("hidden");
+  } else {
+    document.getElementById("noOrdersPlaceholder").classList.add("hidden");
+  }
+}
+
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListeners();
   optionChangeListener();
 }
-
 
 // Individual listeners
 function setServeOrderListner(copy) {
@@ -57,20 +127,15 @@ function setServeOrderListner(copy) {
     }
 
     if (queueSelected) { //if queue is selected
-      if (globalBartenders.some(bartender => bartender.status === "READY")) { //if some bartenders are READY
         order = globalQueue.find(getOrder);  //go through globalQueue and find order
         const index = globalQueue.findIndex(getOrder); //find index of the order
         globalQueue.splice(index, 1); //splice from queue
         globalServing.push(order); //add to serving
-        updateBartender(order, false); //update the bartender from ready to busy
         element.remove(); 
-      }
-    } else {
+      } else {
       order = globalServing.find(getOrder); //if all bartenders are working do this
       const index = globalServing.findIndex(getOrder);
       globalServing.splice(index, 1);
-      updateTapLevels(order);
-      updateBartender(order, true);
       element.remove();
     }
   });
@@ -96,11 +161,11 @@ function setToggleOrdersListeners() {
 function optionChangeListener(){
 beerDropdown.addEventListener("change", function (){
   document.querySelector("#beerInfoContainer").innerHTML = "";
-  checkBeer(event);
+  checkBeer();
 });
 }
 
-function checkBeer(event){
+function checkBeer(){
 //document.querySelectorAll(".beerInfoCard").classList.toggle("hidden");
 filter = beerDropdown.options[beerDropdown.selectedIndex].value;
 globalBeers.forEach((beer) => {
@@ -112,62 +177,6 @@ globalBeers.forEach((beer) => {
 })
 }
 
-
-function updateTapLevels(order) {
-  // Go through each beer in order and update the global 
-  // tap levels if the beer names match
-  order.order.forEach((orderBeer) => {
-    globalTapLevels = globalTapLevels.map(tapBeer => {
-      let newTapBeer = {...tapBeer};
-      if (tapBeer.beer === orderBeer.name) {
-        newTapBeer = {
-          ...newTapBeer,
-          level: newTapBeer.level - orderBeer.amount * 10
-        };
-      } 
-      return newTapBeer;
-    });
-  });
-}
-
-function updateBartender(order, isWorking) {
-  let newBartendersState;
-  if (isWorking) {
-    newBartendersState = globalBartenders.map(bartender => ({
-      ...bartender,
-      servingCustomer: bartender.servingCustomer === order.id ? null : bartender.servingCustomer,
-      status: bartender.servingCustomer === order.id ? 'READY' : bartender.status
-    }));
-  } else {
-    let bartenderFound = false;
-
-    newBartendersState = globalBartenders.map(bartender => {
-      if (bartender.status === 'READY' && !bartenderFound) {
-        bartenderFound = true;
-        return {
-          ...bartender,
-          servingCustomer: order.id,
-          status: 'WORKING'
-        }
-      } else {
-        return bartender;
-      }
-    });
-  }
-
-  globalBartenders = newBartendersState;
-}
-
-async function loadJSON() {
-  const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
-  const JSONdata = await dataResponse.json();
-  const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
-  const JSONbeers = await beerInfoResponse.json()
-
-  //once fetched, prepare data
-  handleData(JSONdata);
-  handleBeerInfo(JSONbeers);
-}
 
 function handleBeerInfo(JSONbeers){
 
@@ -209,22 +218,6 @@ function cleanBeerName(beerName){
   const cleanedName = beerName.toLowerCase().replaceAll(' ', '');
   return cleanedName;
 }
-function setOrders(data) {
-  const orders = data.queue;
-  const serving = data.serving;
-
-  //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
-  ////for queue
-  orders.forEach((order) => {
-    const queueItem = getItems(order);
-    globalQueue.push(queueItem);
-  });
-  ////for serving
-  serving.forEach((serving) => {
-    const servingItem = getItems(serving);
-    globalServing.push(servingItem);
-  });
-}
 
 function setTapLevels(data) {
   globalTapLevels = data.taps;
@@ -234,27 +227,6 @@ function setBartenders(data) {
   globalBartenders = data.bartenders;
 }
 
-function handleOrders() {
-  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
-  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
-  if (queueSelected) {
-    document.querySelector("#orders .orderList").innerHTML = "";
-    globalQueue.forEach((order) => displayOrder(order, true));
-    document.querySelector(".servingFilter").classList.remove("active");
-    document.querySelector(".queueFilter").classList.add("active"); //for each order display
-  } else {
-    document.querySelector("#orders .orderList").innerHTML = "";
-    globalServing.forEach((order) => displayOrder(order, false));
-    document.querySelector(".servingFilter").classList.add("active");
-    document.querySelector(".queueFilter").classList.remove("active");
-  }
-
-  if (orders.length == 0 && queueSelected) {
-    document.getElementById("noOrdersPlaceholder").classList.remove("hidden");
-  } else {
-    document.getElementById("noOrdersPlaceholder").classList.add("hidden");
-  }
-}
 
 function handleBartenders() {
   document.querySelector("#bartenderCards").innerHTML = "";
@@ -262,30 +234,11 @@ function handleBartenders() {
   bartenders.forEach(displayBartender);
 }
 
-function handleData(JSONdata) {
-  setOrders(JSONdata);
-  setTapLevels(JSONdata);
-  setBartenders(JSONdata);
-
-  //HANDLE ORDERS
-  setInterval(handleOrders, 1000);
-  handleOrders();
-
-  //HANDLE TAPS
-  globalTapLevels.forEach(makeChartFromTaps);
-
-  // HANDLE BARTENDERS
-  setInterval(handleBartenders, 1000);
-  handleBartenders();
-
-  //HANDLE KEG STORAGE
-  const kegs = JSONdata.storage;
-  kegs.forEach(displayKegStorage);
-}
-
 function getItems(order) {
   //create new cleaned up order with amount and type of beer filtered
+  ////remove multiple sets from array 
   const uniqueArray = [...new Set(order.order)];
+  ////for each new set item break up components to create cleaned up order
   const parsedOrder = uniqueArray.map(item => ({
     name: item,
     amount: order.order.filter(order => order === item).length
@@ -335,13 +288,9 @@ function displayOrder(order, isQueue) {
   //create clone
   let copy;
   if (isQueue) {
-    copy = document
-      .querySelector("template#orderCardQueue")
-      .content.cloneNode(true);
+    copy = document.querySelector("template#orderCardQueue").content.cloneNode(true);
   } else {
-    copy = document
-      .querySelector("template#orderCardServe")
-      .content.cloneNode(true);
+    copy = document.querySelector("template#orderCardServe").content.cloneNode(true);
   }
 
   //populate clone
