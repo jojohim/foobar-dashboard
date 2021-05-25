@@ -16,6 +16,7 @@
         </div>
       </header>
     <section id="orders">
+      <h1>Orders</h1>
       <div id="filterButtons">
       <input type="button" class="orderStatusFilter queueFilter selected" value="Queue">
       <input type="button" class="orderStatusFilter servingFilter" value="Serving">
@@ -48,18 +49,24 @@
     <section id="storage">
       <nav id="storage-nav">
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-taps-tab" data-toggle="tab" href="#taps" role="tab" aria-controls="taps" aria-selected="true">Bar Levels</a>
-        <a class="nav-item nav-link" id="nav-kegs-tab" data-toggle="tab" href="#kegs" role="tab" aria-controls="kegs" aria-selected="false">Keg Storage</a>
+        <a class="nav-item nav-link active" id="nav-taps-tab" data-toggle="tab" href="#tapContent" role="tab" aria-controls="taps" aria-selected="true">Bar Levels</a>
+        <a class="nav-item nav-link" id="nav-kegs-tab" data-toggle="tab" href="#kegContent" role="tab" aria-controls="kegs" aria-selected="false">Keg Storage</a>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
-      <div class="tab-pane fade show active" id="taps" role="tabpanel" aria-labelledby="nav-taps-tab"></div>
-      <div class="tab-pane fade" id="kegs" role="tabpanel" aria-labelledby="nav-kegs-tab"></div>
+      <div class="tab-pane fade show active" id="tapContent" role="tabpanel" aria-labelledby="nav-taps-tab">
+        <div id="taps"></div>
+      </div>
+      <div class="tab-pane fade" id="kegContent" role="tabpanel" aria-labelledby="nav-kegs-tab">
+        <div id="kegs"></div>
+      </div>
     </div>
     </section>
     <template id="kegStorage">
+      <div class="kegContainer">
       <p class="kegName"></p>
-      <p class="kegAmount"></p>
+      <div class="kegDataVisuals"><img src="keg-icon.svg"><p class="kegAmount"></p></div>
+    </div>
     </template>
     <template id="tapChart">
     <article class="tapContainer">

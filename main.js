@@ -56,7 +56,7 @@ function handleData(JSONdata) {
   console.log(JSONdata);
 
   //HANDLE ORDERS
-  setInterval(function(){handleOrders(JSONdata)}, 10000);
+  setInterval(function(){handleOrders(JSONdata)}, 5000);
   handleOrders(JSONdata);
 
   //HANDLE TAPS
@@ -75,7 +75,7 @@ function handleData(JSONdata) {
 function handleOrders(JSONdata) { 
   //empty serving array
   globalServing = [];
-  globalQueue = [];
+  //globalQueue = [];
 
   //set variables
   const queueItems = JSONdata.queue;

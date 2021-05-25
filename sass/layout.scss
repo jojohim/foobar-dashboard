@@ -3,6 +3,7 @@ body {
         margin: auto 0;
     }
 
+@media (min-width:1001px) {
 main {
         height: 100vh;
         display: grid;
@@ -36,11 +37,4 @@ header{
     grid-column-start: 2;
     grid-column-end: 4;
 }
-
-@media (max-width: 1000px) {
-    main{
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-    }
-
 }

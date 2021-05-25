@@ -5,20 +5,60 @@
     box-shadow: $box-shadow;
     margin: 0vw 1vw 1vw 2vw;
     overflow: scroll;
+
+}
+#nav-tab.nav.nav-tabs{
+    background-color: $base-color;
+    padding: 1vw 0 0 1vw;
+    
 }
 
-////had to use important to overwrite the default settings by charts.js
-canvas{
-    width:clamp(100px,6vw, 6vw) !important;
-    height:clamp(100px,6vw, 6vw) !important;
+#tabs.tab-pane.active{
+    padding: 1vh 2vw;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    color: $base-color;
+}
+
+//BOTH TABS
+
+.tapContainer,
+.kegContainer{
+    display: flex;
+    flex-direction: column;
+    align-items:  center;
+    margin: 1vh 0 1vh 0;
+    overflow: hidden;
     position: relative;
+    min-width: clamp(100px, 7vw, 7vw);
 }
 
-#taps{
+.kegName,
+.tapName{
+        font-weight: bold;
+}
+
+#taps,
+#kegs{
+    margin: 1vw 4vw 0 4vw;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     align-items: center;
+    align-content: center;
+    align-self: center;
+    justify-items: center;
+}
+
+//TAP LEVELS
+
+////had to use important to overwrite the default settings by charts.js
+
+canvas{
+    width:clamp(100px,6vw, 6vw) !important;
+    height:clamp(100px,6vw, 6vw) !important;
+    position: relative;
 }
 
 .tapName{
@@ -28,20 +68,12 @@ canvas{
 }
 
 
-.tapContainer{
-    display: flex;
-    flex-direction: column;
-    align-items:  center;
-    margin: 1vh 0 1vh 0;
-    overflow: hidden;
-    position: relative;
-}
-
 .tapAmount{
     text-align: center;
     position: absolute;
-    top: 50%;
-    left: 25%;
+    transform-origin: center;
+    top: clamp(50px,1.6vw, 1.6vw);
+    left: clamp(18px,1.3vw, 1.3vw);
 
 }
 
@@ -64,16 +96,20 @@ canvas{
     position: relative;
 }
 
-#nav-tab.nav.nav-tabs{
-    background-color: $base-color;
-    padding: 1vw 0 0 1vw;
-    
+//KEG STORAGE
+
+.kegContainer{
+    margin-top: 1vw;
+}
+.kegDataVisuals{
+    display: flex;
+    align-items: flex-end;
+
+    img{
+        height: clamp(50px, 3vw, 3vw);
+    }
 }
 
-#tabs.tab-pane.active{
-    padding: 1vh 2vw;
-}
-
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-    color: $base-color;
+p.kegAmount{
+    margin: 0;
 }
