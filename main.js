@@ -22,6 +22,8 @@ let globalQueue = [];
 let globalServing = [];
 let globalTapLevels = [];
 let globalBartenders = [];
+let globalBeers = [];
+console.log(globalBeers)
 
 console.log(document.querySelector("#beerTypeDropDown option").value);
 
@@ -147,21 +149,16 @@ async function loadJSON() {
 
   //once fetched, prepare data
   handleData(JSONdata);
-  handleBeerInfo(jsonBeerInfo);
+  setBeerInfo(jsonBeerInfo);
 }
 
-function handleBeerInfo(beers){
-beers.forEach(checkIfBeerSelected);
+function setBeerInfo(beers){
+  console.log(beers);
+globalBeers = beers;
 }
 
-function checkIfBeerSelected(beer){
-  console.log(beer.name);
-  if (beer.name == "Fairy Tale Ale"){
-    displayBeer(beer);
-  } else{
-    return;
-  }
-  
+function checkIfBeerSelected(beer, selected){
+
 }
 
 function displayBeer(beer){
@@ -232,7 +229,6 @@ function handleData(JSONdata) {
   setBartenders(JSONdata);
 
   //HANDLE ORDERS
-  //call handle order every few seconds
   setInterval(handleOrders, 1000);
   handleOrders();
 
