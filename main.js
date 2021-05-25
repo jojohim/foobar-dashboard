@@ -23,6 +23,8 @@ let globalServing = [];
 let globalTapLevels = [];
 let globalBartenders = [];
 let globalBeers = [];
+
+//variables for beer info section
 let beerDropdown =  document.querySelector("#beerTypeDropDown");
 let filter;
 
