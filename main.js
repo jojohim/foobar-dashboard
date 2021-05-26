@@ -1,4 +1,5 @@
 import "./sass/styles.scss";
+import {getBeerInfo} from './modules/beerInfo.js'
 
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
@@ -17,6 +18,7 @@ window.addEventListener("DOMContentLoaded", start);
 let ordersResponseArray = [];
 
 //GLOBAL ARRAYS
+////for orders 
 let queueSelected = true;
 let globalQueue = [];
 let globalServing = [];
@@ -39,6 +41,19 @@ function start() {
 function setEventListeners() {
   setToggleOrdersListeners();
   optionChangeListener();
+}
+
+function convertTime(epoch) {
+  ///////to do: make time look pretty
+  const time = new Date(epoch);
+  const dd = String(time.getDate()).padStart(2, "0");
+  const mm = String(time.getMonth() + 1).padStart(2, "0");
+  const year = time.getFullYear();
+  const hours = time.getHours();
+  const minutes = String(time.getMinutes()).padStart(2, "0");
+  const editedTime = `${dd}-${mm}-${year}, ${hours}:${minutes}`;
+
+  return editedTime;
 }
 
 async function loadJSON() {
@@ -73,60 +88,79 @@ function handleData(JSONdata) {
 }
 
 function handleOrders(JSONdata) { 
-  //empty serving array
-  globalServing = [];
-  //globalQueue = [];
-
-  //set variables
-  const queueItems = JSONdata.queue;
-  const servingItems = JSONdata.serving;
-
-  //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
-  ////for queue
-  queueItems.forEach((queue) => {
-    const queueItem = getItems(queue);
-    globalQueue.push(queueItem);
-  });
-  ////for serving
-  servingItems.forEach((serving) => {
-    const servingItem = getItems(serving);
-    globalServing.push(servingItem);
-  });
-
-  if (queueSelected) {
-    document.querySelector(".orderList").innerHTML = "";
-    globalQueue.forEach((order) => displayOrder(order, true));
-    document.querySelector(".servingFilter").classList.remove("active");
-    document.querySelector(".queueFilter").classList.add("active"); //for each order display
-  } else {
-    document.querySelector(".orderList").innerHTML = "";
-    globalServing.forEach((order) => displayOrder(order, false));
-    document.querySelector(".servingFilter").classList.add("active");
-    document.querySelector(".queueFilter").classList.remove("active");
-  }
-
-  console.log(globalQueue.length);
-  document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
-  document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
-
-}
-
-// Individual listeners
-function setToggleOrdersListeners() {
-  const buttons = document.querySelectorAll(".orderStatusFilter");
-  buttons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      if (!button.classList.contains("selected")) {
-        buttons.forEach(function (button) {
-          button.classList.remove("selected");
-        });
-
-        button.classList.add("selected");
-        queueSelected = !queueSelected;
-      }
+    //empty serving array
+    globalServing = [];
+    //globalQueue = [];
+  
+    //set variables
+    const queueItems = JSONdata.queue;
+    const servingItems = JSONdata.serving;
+  
+    //FOR EACH ORDER SET ATTRIBUTES AND THEN PUSH TO GLOBAL ARRAY
+    ////for queue
+    queueItems.forEach((queue) => {
+      const queueItem = getOrderItems(queue);
+      globalQueue.push(queueItem);
     });
-  });
-}
+    ////for serving
+    servingItems.forEach((serving) => {
+      const servingItem = getOrderItems(serving);
+      globalServing.push(servingItem);
+    });
+  
+    if (queueSelected) {
+      document.querySelector(".orderList").innerHTML = "";
+      globalQueue.forEach((order) => displayOrder(order, true));
+      document.querySelector(".servingFilter").classList.remove("active");
+      document.querySelector(".queueFilter").classList.add("active"); //for each order display
+    } else {
+      document.querySelector(".orderList").innerHTML = "";
+      globalServing.forEach((order) => displayOrder(order, false));
+      document.querySelector(".servingFilter").classList.add("active");
+      document.querySelector(".queueFilter").classList.remove("active");
+    }
+  
+    console.log(globalQueue.length);
+    document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
+    document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
+  
+  }
+  
+  // Individual listeners
+  function setToggleOrdersListeners() {
+    const buttons = document.querySelectorAll(".orderStatusFilter");
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        if (!button.classList.contains("selected")) {
+          buttons.forEach(function (button) {
+            button.classList.remove("selected");
+          });
+  
+          button.classList.add("selected");
+          queueSelected = !queueSelected;
+        }
+      });
+    });
+  }
+  
+  function getOrderItems(order) {
+    //create new cleaned up order with amount and type of beer filtered
+    ////remove multiple sets from array 
+    const uniqueArray = [...new Set(order.order)];
+    ////for each new set item break up components to create cleaned up order
+    const parsedOrder = uniqueArray.map(item => ({
+      name: item,
+      amount: order.order.filter(order => order === item).length
+    }));
+  
+    return {
+      id: order.id,
+      timestamp: convertTime(order.startTime),
+      order: parsedOrder,
+      tableNumber: Math.floor(Math.random() * 5) + 1,
+      total: order.order.length,
+    };
+  }
 
 //STATIC BEER INFO
 
@@ -160,15 +194,6 @@ function handleBeerInfo(JSONbeers){
   displayBeer(globalBeers[0]);
 }
 
-function getBeerInfo(beer){
-  return {
-    name: beer.name,
-    category: beer.category,
-    ranking: beer.popularity,
-    alcLevel: beer.alc,
-    description: beer.description.overallImpression,
-  };
-}
 
 function displayBeer(beer){
   const copy = document.getElementById("beerInfoTemplate").content.cloneNode(true);
@@ -198,25 +223,6 @@ function handleBartenders(bartenders) {
 
   //for each bartender in global array display
   globalBartenders.forEach(displayBartender);
-}
-
-function getItems(order) {
-  //create new cleaned up order with amount and type of beer filtered
-  ////remove multiple sets from array 
-  const uniqueArray = [...new Set(order.order)];
-  ////for each new set item break up components to create cleaned up order
-  const parsedOrder = uniqueArray.map(item => ({
-    name: item,
-    amount: order.order.filter(order => order === item).length
-  }));
-
-  return {
-    id: order.id,
-    timestamp: convertTime(order.startTime),
-    order: parsedOrder,
-    tableNumber: Math.floor(Math.random() * 5) + 1,
-    total: order.order.length,
-  };
 }
 
 function displayBartender(bartender) {
@@ -287,18 +293,6 @@ function getCurrentTime() {
 setInterval(getCurrentTime, 1000);
 getCurrentTime();
 
-function convertTime(epoch) {
-  ///////to do: make time look pretty
-  const time = new Date(epoch);
-  const dd = String(time.getDate()).padStart(2, "0");
-  const mm = String(time.getMonth() + 1).padStart(2, "0");
-  const year = time.getFullYear();
-  const hours = time.getHours();
-  const minutes = String(time.getMinutes()).padStart(2, "0");
-  const editedTime = `${dd}-${mm}-${year}, ${hours}:${minutes}`;
-
-  return editedTime;
-}
 
 function displayKegStorage(keg) {
   //CREATE COPY
