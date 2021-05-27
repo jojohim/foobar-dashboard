@@ -3,7 +3,7 @@ body {
         margin: auto 0;
     }
 
-@media (min-width:1001px) {
+@media (min-width:600px) {
 main {
         height: 100vh;
         display: grid;
@@ -36,5 +36,52 @@ header{
     grid-row: 1;
     grid-column-start: 2;
     grid-column-end: 4;
+}
+}
+
+@media (max-width:599px) {
+#bartenders,
+#notes,
+#storage,
+#beerInfo{
+    margin: 5vh 2vh;
+}
+
+#bartenderCards,
+.note{
+    margin: 3vw;
+}
+
+.bartender{
+    padding: 4vw;
+
+    img{
+        height: 15vw;
+    }
+}
+
+.note:first-child{
+    margin-top: 7vh;
+    padding: 2vw;
+    max-height: 40vh;
+    overflow: scroll;
+}
+
+#beerInfoHeader{
+    display: block;
+}
+
+.beerInfoCard{
+    display: block;
+}
+
+.beerVisuals{
+align-content: center;
+justify-content: center;
+}
+.beerInfoText{
+    padding: 5vw;
+    max-width: 100%;
+    justify-content: center;
 }
 }
