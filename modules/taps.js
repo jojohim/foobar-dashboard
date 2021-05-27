@@ -59,7 +59,7 @@ function makeChartFromTaps(tap) {
   
     return config;
   }
-  
+
 function getColorForChart(level) {
     if (level >= 100) {
       return "rgba(88,221,107,1.0)";
@@ -70,21 +70,4 @@ function getColorForChart(level) {
     }
   }
   
-  
-  //KEG STORAGE 
-export function handleKegStorage(kegs){
-    kegs.forEach(displayKegStorage);
-  }
-
-function displayKegStorage(keg) {
-    //CREATE COPY
-    const copy = document.querySelector("template#kegStorage").content.cloneNode(true);
-  
-    //POPULATE
-    copy.querySelector(".kegName").textContent = keg.name;
-    copy.querySelector(".kegAmount").textContent = keg.amount;
-  
-    //APPEND
-    document.getElementById("kegs").appendChild(copy);
-  }
   

@@ -1,8 +1,9 @@
 import "./sass/styles.scss";
 import {optionChangeListener, handleBeerInfo} from './modules/beerInfo.js'
 import {handleBartenders} from './modules/bartenders.js'
-import {handleTaps, handleKegStorage} from './modules/storage.js'
+import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
+import {handleKegStorage} from './modules/kegs.js'
 
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
