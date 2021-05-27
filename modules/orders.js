@@ -1,3 +1,4 @@
+import { displayBeer } from "./beerInfo";
 
 //variables
 let queueSelected = true;
@@ -38,7 +39,12 @@ export function handleOrders(JSONdata) {
       const servingItem = getOrderItems(serving);
       globalServing.push(servingItem);
     });
-  
+
+    checkIfServing();
+    displayOrderLength();
+}
+
+function checkIfServing(){
     if (queueSelected) {
       document.querySelector(".orderList").innerHTML = "";
       globalQueue.forEach((order) => displayOrder(order, true));
@@ -51,13 +57,15 @@ export function handleOrders(JSONdata) {
       document.querySelector(".queueFilter").classList.remove("active");
     }
   
+  }
+
+function displayOrderLength(){
     console.log(globalQueue.length);
     document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
     document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
-  
-  }
+}
 
-  function getOrderItems(order) {
+function getOrderItems(order) {
     ////remove multiple sets from array 
     const uniqueArray = [...new Set(order.order)];
     ////for each new set item break up components to create cleaned up order
