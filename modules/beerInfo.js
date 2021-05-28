@@ -1,4 +1,4 @@
-export let globalBeers = [];
+let globalBeers = [];
 let beerDropdown =  document.querySelector("#beerTypeDropDown");
 let filter;
 
@@ -18,7 +18,8 @@ export function optionChangeListener(){
     checkBeer();
   });
   }
-export function getBeerInfo(beer){
+
+  function getBeerInfo(beer){
     return {
       name: beer.name,
       category: beer.category,
@@ -28,7 +29,7 @@ export function getBeerInfo(beer){
     };
   }
 
-  export function displayBeer(beer){
+export function displayBeer(beer){
     const copy = document.getElementById("beerInfoTemplate").content.cloneNode(true);
   
     copy.querySelector(".beerName").textContent = beer.name;

@@ -64,6 +64,14 @@ input[type=button]:hover{
     margin: 0 4vw 0 4vw;
 }
 
+.serveButton[value=Done]{
+    background-color: $base-color-shade;
+    border: 2px solid $base-color-shade;
+}
+
+.serveButton[value=Done]:hover{
+    color: $base-color-shade;
+}
 .serveButton:hover{
     background-color: transparent;
     color: $base-color;

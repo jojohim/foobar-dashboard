@@ -1,4 +1,4 @@
-import { displayBeer } from "./beerInfo";
+
 
 //variables
 let queueSelected = true;
@@ -49,11 +49,13 @@ function checkIfServing(){
       document.querySelector(".orderList").innerHTML = "";
       globalQueue.forEach((order) => displayOrder(order, true));
       document.querySelector(".servingFilter").classList.remove("active");
+      document.querySelector("#orders").style.backgroundColor = "#478cfa";
       document.querySelector(".queueFilter").classList.add("active"); //for each order display
     } else {
       document.querySelector(".orderList").innerHTML = "";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
+      document.querySelector("#orders").style.backgroundColor = "#336AC2";
       document.querySelector(".queueFilter").classList.remove("active");
     }
   
