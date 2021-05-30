@@ -51,7 +51,7 @@ function makeChartFromTaps(tap) {
   
     const config = {
       type: "doughnut",
-      data: data,
+      data: data
       options: {
         cutout: "75%",
       },
