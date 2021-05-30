@@ -19,7 +19,7 @@ function makeChartFromTaps(tap) {
     ///FOR LABELLING
     const tapLevelInPints = tap.level / 10;
     copy.querySelector(".tapName").textContent = tap.beer;
-    copy.querySelector(".tapAmount").textContent = `${tapLevelInPints} Pints`;
+    copy.querySelector(".tapAmount").textContent = `${tapLevelInPints}`;
   
   
     ///FOR CHART

@@ -66,11 +66,33 @@ function getCurrentTime() {
 }
 
 
+//MEDIA QUERIES
 
+const ordersShowing = false;
+const orderSection = document.querySelector("#orders");
+const showHideOrdersButton = document.querySelector("#showHideOrders")
+const mediaQuery = window.matchMedia('(max-width: 599px)');
 
+showHideOrdersButton.addEventListener("click", showHideOrders);
+function handleMobileChange(e){
+  if(e.matches){
+    orderSection.classList.add("hidden");
+    showHideOrdersButton.classList.remove("hidden");
+  } else{
+    orderSection.classList.remove("hidden");
+    showHideOrdersButton.classList.add("hidden");
+  }
+}
 
+function showHideOrders(){
+orderSection.classList.toggle("hidden");
+if (showHideOrdersButton.innerHTML == "Show Orders"){
+  showHideOrdersButton.innerHTML = "Hide Orders"
+} else {
+  showHideOrdersButton.innerHTML = "Show Orders";
+}
+}
 
-
-
-
+mediaQuery.addListener(handleMobileChange);
+handleMobileChange(mediaQuery);
 
