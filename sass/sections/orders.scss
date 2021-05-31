@@ -5,7 +5,15 @@
     h1{
         text-align: center;
         padding-top: 1vw;
+        padding-bottom: 1vw;
     }
+}
+
+#orderNav{
+    position: sticky;
+    top: 0;
+    background-color: $base-color;
+    padding-bottom: 1vw;
 }
 
 #filterButtons{
@@ -13,7 +21,7 @@
     justify-content: center;
 
     input{
-        margin: 1vw 1vw 0 1vw;
+        margin: 0vw 1vw 0 1vw;
     }
 }
 

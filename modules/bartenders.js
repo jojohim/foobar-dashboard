@@ -27,17 +27,17 @@ export function displayBartender(bartender) {
   
     function getColorForStatus() {
       if (bartender.status == "WORKING") {
-        return "rgba(221,114,88,1.0)";
+        return "rgba(71,140,250,1.0)";
       } else {
-        return "rgba(88,221,107,1.0)";
+        return "rgba(51,106,194,1.0)";
       }
     }
   
     function getStatus(){
       if(bartender.status == "WORKING"){
-        return "Busy";
+        return "Bartending";
       } else {
-        return "Ready";
+        return "Running";
       }
     }
     //append

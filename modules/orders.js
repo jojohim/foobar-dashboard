@@ -42,29 +42,35 @@ export function handleOrders(JSONdata) {
 
     checkIfServing();
     displayOrderLength();
-}
 
+}
 function checkIfServing(){
     if (queueSelected) {
       document.querySelector(".orderList").innerHTML = "";
       globalQueue.forEach((order) => displayOrder(order, true));
       document.querySelector(".servingFilter").classList.remove("active");
-      document.querySelector("#orders").style.backgroundColor = "#478cfa";
+      document.querySelector("#orders").style.backgroundColor = "rgba(71,140,250,1.0)";
+      document.querySelector("#orderNav").style.backgroundColor = "rgba(71,140,250,1.0)";
       document.querySelector(".queueFilter").classList.add("active"); //for each order display
     } else {
       document.querySelector(".orderList").innerHTML = "";
+      document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
-      document.querySelector("#orders").style.backgroundColor = "#336AC2";
+      document.querySelector("#orders").style.backgroundColor = "rgba(51,106,194,1.0)";
       document.querySelector(".queueFilter").classList.remove("active");
     }
   
   }
 
 function displayOrderLength(){
-    console.log(globalQueue.length);
     document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
     document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
+    if (globalQueue.length == 0){
+      document.querySelector("#noOrdersPlaceholder").classList.remove("hidden");
+    } else {
+      return;
+    };
 }
 
 function getOrderItems(order) {
@@ -86,6 +92,7 @@ function getOrderItems(order) {
   }
   
   function displayOrder(order, isQueue) {
+
     //create clone
     let copy;
     if (isQueue) {
@@ -97,7 +104,6 @@ function getOrderItems(order) {
     //populate clone
     copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5
     copy.querySelector(".timestamp").textContent = order.timestamp;
-    ////////to do: for each type of beer only display once and then show amount
   
     const ul = document.createElement('ul');
     order.order.forEach(order => {

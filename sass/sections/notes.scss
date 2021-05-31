@@ -1,10 +1,15 @@
 #notes{
     background-color: white;
     border-radius: $border-radius;
-    margin: 0vw 2vw 1vw 1vw;
+    margin: 0vw 2vw 0vw 1vw;
     box-shadow: $box-shadow;
     overflow: scroll;
     position: relative;
+
+    h1{
+        position: sticky;
+        top: 0;
+    }
 }
 
 .note{
@@ -14,12 +19,10 @@
     padding: 1vw;
 }
 
-.note:first-child{
-    margin-top: 2vw;
-}
+
 #notesContainer{
-    padding: 2vw;
-    margin-top: 2vh;
+    padding: 1vw 2vw;
+
 }
 
 .noteStamp{

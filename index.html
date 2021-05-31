@@ -17,10 +17,12 @@
       </header>
       <button id="showHideOrders" class="hidden">Show Orders</button>
     <section id="orders">
+      <div id="orderNav">
       <h1>Orders</h1>
       <div id="filterButtons">
       <input type="button" class="orderStatusFilter queueFilter selected" value="Queue">
       <input type="button" class="orderStatusFilter servingFilter" value="Serving">
+      </div>
     </div>
     <div class="orderList"></div>
     <h2 id="noOrdersPlaceholder" class="hidden">No new orders</h2>
@@ -82,14 +84,17 @@
     </article>
     </template>
     <section id="bartenders">
-      <h1 class="coloredHeader">Bartenders</h1>
+      <h1 class="coloredHeader">Bartenders Today</h1>
       <div id="bartenderCards"></div>
     </section>
     <template class="bartenderCard">
       <article class="bartender">
       <img class="bartenderPhoto">
       <h3 class="bartenderName">NAME</h3>
+      <div class="bartenderInfo"> 
       <p class="bartenderStatus">STATUS</p>
+      <p>16:00-Close</p>
+      </div>
       </article>
     </template>
     <section id="notes">
@@ -114,7 +119,7 @@
           <img src="sent-icon.svg">
           <p>Zuz at 17:02, 02-06-2021:</p>
         </div>
-        <p>Someone at table 18 forgot their keys yesterday. They will come in today to pick them up. They’re in the office safe.</p>
+        <p>We have a big reservation tonight for 10 people at 6pm under the name Smith.</p>
       </div>
     </div>
     </section>
