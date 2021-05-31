@@ -38,7 +38,7 @@ async function loadJSON() {
 }
 
 function handleData(JSONdata) {
-
+  console.log(JSONdata)
   //HANDLE ORDERS
   setInterval(function(){handleOrders(JSONdata)}, 5000);
   handleOrders(JSONdata);

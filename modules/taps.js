@@ -20,6 +20,7 @@ function makeChartFromTaps(tap) {
     const tapLevelInPints = tap.level / 10;
     copy.querySelector(".tapName").textContent = tap.beer;
     copy.querySelector(".tapAmount").textContent = `${tapLevelInPints}`;
+    copy.querySelector(".pintsLabel").textContent = "pints";
   
   
     ///FOR CHART
@@ -51,9 +52,12 @@ function makeChartFromTaps(tap) {
   
     const config = {
       type: "doughnut",
-      data: data
+      data: data,
       options: {
         cutout: "75%",
+        tooltips: {
+          enabled: true,
+        }
       },
     };
   

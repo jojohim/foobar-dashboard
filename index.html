@@ -66,7 +66,7 @@
     <template id="kegStorage">
       <div class="kegContainer">
       <p class="kegName"></p>
-      <div class="kegDataVisuals"><img src="keg-icon.svg"><p class="kegAmount"></p></div>
+      <div class="kegDataVisuals"><img src="keg-icon.svg"><h3 class="kegAmount"></h3></div>
     </div>
     </template>
     <template id="tapChart">
@@ -74,7 +74,10 @@
         <p class="tapName"></p>
       <div class="chartContainer">
         <canvas class="tap"></canvas>
-        <p class="tapAmount"></p>
+        <div class="chartLabel">
+        <h3 class="tapAmount"></h3>
+        <p class="pintsLabel"></p>
+        </div>
       </div>
     </article>
     </template>
