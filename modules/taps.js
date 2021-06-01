@@ -2,12 +2,16 @@
 let globalTapLevels = [];
 
 export function handleTaps(taps){
+  document.querySelector("#taps").innerHTML ="";
     globalTapLevels = [];
     globalTapLevels = taps;
     globalTapLevels.forEach(makeChartFromTaps);
+    console.log(globalTapLevels);
   }
 
 function makeChartFromTaps(tap) {
+
+
     //CREATE COPY
     const copy = document
       .querySelector("template#tapChart")
@@ -18,7 +22,7 @@ function makeChartFromTaps(tap) {
   
     ///FOR LABELLING
     const tapLevelInPints = tap.level / 10;
-    copy.querySelector(".tapName").textContent = tap.beer;
+    copy.querySelector(".tapName").textContent = `${tap.beer}`;
     copy.querySelector(".tapAmount").textContent = `${tapLevelInPints}`;
     copy.querySelector(".pintsLabel").textContent = "pints";
   
@@ -35,9 +39,11 @@ function makeChartFromTaps(tap) {
       document.querySelector(`.tap[data-id="${tap.id}"]`),
       config
     );
+
   }
-  
+
   function getChartConfig(beer, tapLevelInPints) {
+
     const data = {
       datasets: [
         {
@@ -73,5 +79,5 @@ function getColorForChart(level) {
       return "rgba(221,114,88,1.0)";
     }
   }
-  
+
   

@@ -42,11 +42,14 @@ export function handleOrders(JSONdata) {
 
     checkIfServing();
     displayOrderLength();
+    toggleNoOrderPlaceholder();
+
 
 }
 function checkIfServing(){
     if (queueSelected) {
       document.querySelector(".orderList").innerHTML = "";
+      document.querySelector("#orders h1").textContent = "Queue";
       globalQueue.forEach((order) => displayOrder(order, true));
       document.querySelector(".servingFilter").classList.remove("active");
       document.querySelector("#orders").style.backgroundColor = "rgba(71,140,250,1.0)";
@@ -54,6 +57,7 @@ function checkIfServing(){
       document.querySelector(".queueFilter").classList.add("active"); //for each order display
     } else {
       document.querySelector(".orderList").innerHTML = "";
+      document.querySelector("#orders h1").textContent = "Now Serving";
       document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
@@ -62,22 +66,25 @@ function checkIfServing(){
     }
   
   }
+function toggleNoOrderPlaceholder(){
+  if (globalQueue.length == 0 && queueSelected){
+      document.querySelector("#noOrdersPlaceholder").classList.remove("hidden");
+    } else if(!queueSelected){
+      document.querySelector("#noOrdersPlaceholder").classList.add("hidden");
+  }
+}
 
 function displayOrderLength(){
     document.querySelector(".queueFilter").value = `Queue (${globalQueue.length})`;
     document.querySelector(".servingFilter").value = `Serving (${globalServing.length})`;
-    if (globalQueue.length == 0){
-      document.querySelector("#noOrdersPlaceholder").classList.remove("hidden");
-    } else {
-      return;
-    };
 }
 
 function getOrderItems(order) {
-    ////remove multiple sets from array 
+    ////remove duplicate sets from array 
     const uniqueArray = [...new Set(order.order)];
-    ////for each new set item break up components to create cleaned up order
+    ////for each new set item break up components
     const parsedOrder = uniqueArray.map(item => ({
+    //create new clean object with amount and name separate
       name: item,
       amount: order.order.filter(order => order === item).length
     }));

@@ -1,6 +1,9 @@
 
 export function handleKegStorage(kegs){
+  document.getElementById("kegs").innerHTML = "";
     kegs.forEach(displayKegStorage);
+
+
   }
 
 function displayKegStorage(keg) {

@@ -46,11 +46,13 @@ function handleData(JSONdata) {
   //HANDLE TAPS
   handleTaps(JSONdata.taps);
 
+
   //HANDLE BARTENDERS
   setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
   handleBartenders(JSONdata.bartenders);
 
   //HANDLE KEG STORAGE
+  setInterval(function(){handleKegStorage(JSONdata.storage)}, 5000);
   handleKegStorage(JSONdata.storage);
 }
 

@@ -10,7 +10,8 @@ export function handleBeerInfo(JSONbeers){
   });
 
   displayBeer(globalBeers[0]);
-}
+
+  }
 
 export function optionChangeListener(){
   beerDropdown.addEventListener("change", function (){
@@ -31,8 +32,10 @@ export function optionChangeListener(){
 
 export function displayBeer(beer){
     const copy = document.getElementById("beerInfoTemplate").content.cloneNode(true);
-  
-    copy.querySelector(".beerName").textContent = beer.name;
+
+    let beerIndex = globalBeers.indexOf(beer);
+
+    copy.querySelector(".beerName").textContent = `${beerIndex + 1}. ${beer.name}`;
     copy.querySelector(".beerCategory").textContent = `Style: ${beer.category}`;
     copy.querySelector(".beerFlavor").textContent = beer.description;
     copy.querySelector(".alcPercentage").textContent = `${beer.alcLevel}%`;
