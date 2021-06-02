@@ -40,7 +40,7 @@ async function loadJSON() {
 function handleData(JSONdata) {
   console.log(JSONdata)
   //HANDLE ORDERS
-  setInterval(function(){handleOrders(JSONdata)}, 5000);
+  setInterval(function(){handleOrders(JSONdata)}, 4000);
   handleOrders(JSONdata);
 
   //HANDLE TAPS
