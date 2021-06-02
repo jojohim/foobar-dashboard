@@ -40,7 +40,8 @@ export function displayBeer(beer){
     copy.querySelector(".beerFlavor").textContent = beer.description;
     copy.querySelector(".alcPercentage").textContent = `${beer.alcLevel}%`;
     copy.querySelector(".ranking").textContent = `#${beer.ranking}`;
-    copy.querySelector(".labelIcon").src = `${cleanBeerName(beer.name)}.png`
+    copy.querySelector(".labelIcon").src = `${cleanBeerName(beer.name)}.png`;
+    copy.querySelector(".labelIcon").alt = `beer label of ${beer.name} craft beer`;
   
     document.querySelector("#beerInfoContainer").appendChild(copy);
   }
