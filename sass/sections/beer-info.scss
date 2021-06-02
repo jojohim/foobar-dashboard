@@ -15,7 +15,8 @@
 }
 
 img.bottleIcon{
-    height: clamp(20px,24vh, 22vh);
+    height: 12em;
+    width: auto;
 }
 
 .beerInfoCard{
@@ -65,10 +66,11 @@ img.bottleIcon{
 }
 
 .labelIcon{
-    max-width: 7vh;
+    width: 3.8em;
+    height: auto;
     position: absolute;
-    left: 5%;
-    top: clamp(14px,10vh, 10vh);
+    left: 6%;
+    top: 5.5em;
     opacity: 0.8;
     border-radius: 5px;
 }

@@ -59,7 +59,10 @@ function makeChartFromTaps(tap) {
     const config = {
       type: "doughnut",
       data: data,
+      parsing: false,
       options: {
+        normalized: true,
+        animation: false,
         cutout: "75%",
         tooltips: {
           enabled: true,
