@@ -3,3 +3,17 @@ node_modules
 dist
 dist-ssr
 *.local
+
+
+sass/
+    - sections/
+        - bartenders.scss   //Bartender specific styles
+        - beer-info.scss    //BeerInfo specific styles
+        - header.scss       //Header specific styles
+        - notes.scss        //Notes specific styles
+        - orders.scss       //Orders specific styles
+        - storage.scss      //Storage specific styles
+    - core.scss             //variables, mixins, utility classes
+    - layout.scss           //grid, media queries
+    - components.scss       //fonts, buttons, scrollbar
+-styles.scss

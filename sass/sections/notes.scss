@@ -1,9 +1,6 @@
 #notes{
-    background-color: white;
-    border-radius: $border-radius;
+    @include sectionBox;
     margin: 0vw 2vw 0vw 1vw;
-    box-shadow: $box-shadow;
-    overflow: scroll;
     position: relative;
 
     h1{

@@ -43,9 +43,9 @@ export function handleOrders(JSONdata) {
     checkIfServing();
     displayOrderLength();
     toggleNoOrderPlaceholder();
-
-
 }
+
+
 function checkIfServing(){
     if (queueSelected) {
       document.querySelector(".orderList").innerHTML = "";
@@ -88,7 +88,7 @@ function getOrderItems(order) {
       name: item,
       amount: order.order.filter(order => order === item).length
     }));
-  
+    //return order with cleaned objects
     return {
       id: order.id,
       timestamp: convertTime(order.startTime),
@@ -118,7 +118,8 @@ function getOrderItems(order) {
       li.textContent = `${order.name} ............................ ${order.amount}`;
       ul.appendChild(li);
     })
-  
+
+    //add urgent class to copy
     copy.querySelector(".order").appendChild(ul);
     copy.querySelector(".orderTotal").textContent = `Total: ${order.total}`;
     copy.querySelector(".serveButton").dataset.id = order.id;

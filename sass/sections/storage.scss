@@ -1,12 +1,9 @@
 
 #storage{
-    background-color: white;
-    border-radius: 0px 0px 20px 20px;
-    box-shadow: $box-shadow;
+    @include sectionBox;
     margin: 0vw 1vw 1vw 2vw;
-    overflow: scroll;
-
 }
+
 #nav-tab.nav.nav-tabs{
     background-color: $base-color;
     padding: 1vw 0 0 1vw;
@@ -53,11 +50,9 @@
 
 //TAP LEVELS
 
-////had to use important to overwrite the default settings by charts.js
-
 canvas{
-    width:clamp(100px,6vw, 6vw) !important;
-    height:clamp(100px,6vw, 6vw) !important;
+    width:clamp(100px,6vw, 6vw);
+    height:clamp(100px,6vw, 6vw);
     position: relative;
 }
 

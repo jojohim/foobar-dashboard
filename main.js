@@ -73,7 +73,7 @@ function getCurrentTime() {
 const ordersShowing = false;
 const orderSection = document.querySelector("#orders");
 const showHideOrdersButton = document.querySelector("#showHideOrders")
-const mediaQuery = window.matchMedia('(max-width: 599px)');
+const mediaQuery = window.matchMedia('(max-width: 1100px)');
 
 showHideOrdersButton.addEventListener("click", showHideOrders);
 function handleMobileChange(e){

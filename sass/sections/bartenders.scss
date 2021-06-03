@@ -1,9 +1,6 @@
 #bartenders{
-    background-color: white;
+    @include sectionBox;
     margin: 0vw 2vw 1vw 1vw;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    overflow: hidden;
     position: relative;
 }
 
@@ -22,11 +19,8 @@ img.bartenderPhoto{
     border-radius: 50px;
 }
 
-.bartender:first-child{
-    margin-top: 6vh;
-}
 
 #bartenderCards{
-    padding: 2vw;
+    padding: 1vw;
 }
 

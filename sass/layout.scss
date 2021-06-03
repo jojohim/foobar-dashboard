@@ -2,8 +2,41 @@ body {
         background-color: $background-color;
         margin: auto 0;
     }
+@media (max-width: 1100px) and (min-width: 601px){
 
-@media (min-width:600px) {
+    #bartenders,
+    #notes,
+    #storage,
+    #beerInfo{
+        margin: 4vh 10vh;
+    }
+
+    #orders{
+position: absolute;
+top: auto;
+height: 100vh;
+width: 100%;
+left: 0;
+z-index: 1;
+transition: 0.25s;
+    }
+.orderContainer{
+    margin: 2vw 20vw;
+}
+
+
+article.bartender{
+        padding: 2vw;
+        margin: 1vw 15vw;
+    }
+.note,
+.bartender{
+    margin: 2vh 8vh;
+}
+
+}
+
+@media (min-width:1101px) {
 main {
         height: 100vh;
         display: grid;
