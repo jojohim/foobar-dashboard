@@ -5,7 +5,6 @@ import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
 import {headers} from './modules/settings.js'
-import {getBarStatus} from './modules/getData.js'
 
 
 window.addEventListener("DOMContentLoaded", start);
@@ -17,18 +16,6 @@ function start() {
   setEventListeners();
   setTimeAndDate();
   getNotes();
-
-    //to get dynamic JSON data
-    const url = "https://carrotsfoobar.herokuapp.com/";
-    let newData = await getBarStatus(url);
-    let oldData = [];
-}
-
-async function getBarStatus(url){
-  const headers = {
-    "Conent-Type": "application/json", 
-  };
-
 }
 // Adding all listeners
 function setEventListeners() {
@@ -37,8 +24,8 @@ function setEventListeners() {
 }
 
 async function loadJSON() {
-  /*const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
-  const JSONdata = await dataResponse.json();*/
+  const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
+  const JSONdata = await dataResponse.json();
 
   const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
   const JSONbeers = await beerInfoResponse.json();
