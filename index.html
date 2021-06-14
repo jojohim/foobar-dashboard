@@ -102,29 +102,17 @@
     <section id="notes">
       <h1 class="coloredHeader">Notes</h1>
     <div id="notesContainer">
-      <div class="note">
-        <div class="noteStamp">
-        <img src="sent-icon.svg" alt="message sent icon in blue" width="22px" height="25px">
-        <p>Zuz at 19:02, 03-06-2021:</p>
-      </div>
-        <p>We’re running low on Fairytale Ale, new kegs will arrive monday until then we’ll have to work with what we have.</p>
-      </div>
-      <div class="note">
-        <div class="noteStamp">
-        <img src="sent-icon.svg" alt="message sent icon in blue" width="22px" height="25px">
-        <p>Johanna at 17:02, 02-06-2021:</p>
-        </div>
-        <p>Someone at table 18 forgot their keys yesterday. They will come in today to pick them up. They’re in the office safe.</p>
-      </div>
-      <div class="note">
-        <div class="noteStamp">
-          <img src="sent-icon.svg" alt="message sent icon in blue" width="22px" height="25px">
-          <p>Zuz at 17:02, 02-06-2021:</p>
-        </div>
-        <p>We have a big reservation tonight for 10 people at 6pm under the name Smith.</p>
-      </div>
     </div>
     </section>
+    <template id="noteTemplate">
+      <div class="note">
+        <div class="noteStamp">
+        <img src="sent-icon.svg" alt="message sent icon in blue" width="22px" height="25px">
+        <p class="noteHeader">Zuz at 19:02, 03-06-2021:</p>
+      </div>
+        <p class="noteText">We’re running low on Fairytale Ale, new kegs will arrive monday until then we’ll have to work with what we have.</p>
+      </div>
+    </template>
     <section id="beerInfo">
       <div id="beerInfoHeader">
       <h1>About Our Beers</h1>

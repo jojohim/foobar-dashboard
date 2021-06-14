@@ -4,8 +4,7 @@
 let queueSelected = true;
 let globalQueue = [];
 let globalServing = [];
-  
-  
+   
 export function setToggleOrdersListener() {
     const buttons = document.querySelectorAll(".orderStatusFilter");
     buttons.forEach(function (button) {
@@ -44,7 +43,6 @@ export function handleOrders(JSONdata) {
     displayOrderLength();
     toggleNoOrderPlaceholder();
 }
-
 
 function checkIfServing(){
     if (queueSelected) {
