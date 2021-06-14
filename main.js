@@ -4,7 +4,7 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-import {getBarStatus} from './modules/getData.js'
+import {getBarStatus, getNotes} from './modules/getData.js'
 
 window.addEventListener("DOMContentLoaded", start);
 
@@ -19,8 +19,12 @@ async function start() {
   let newData = await getBarStatus(jsonURL);
   let oldData = [];
 
+  const notesURL = "https://kea2021-6773.restdb.io/rest/foobar-notes";
+  let newNotes = await getNotes(notesURL);
+
   //set intital data
   handleData(newData);
+  handleNotes(newNotes);
 
   //set global interval to update data 
   setInterval(updateDataArrays, 5000);
@@ -63,6 +67,22 @@ async function loadJSON() {
 
   //once fetched, prepare data
   handleBeerInfo(JSONbeers);
+}
+
+function handleNotes(notes){
+  notes.forEach(displayNote);
+}
+
+function displayNote(note){
+//make copy
+const copy = document.querySelector("template#noteTemplate").content.cloneNode(true);
+//populate 
+copy.querySelector(".noteHeader").textContent = `${note.name} on ${note.date}`;
+copy.querySelector(".noteText").textContent = note.text;
+//append
+document.getElementById("notesContainer").appendChild(copy);
+
+//setInterval(function(){ console.log("cleared"); document.getElementById("notesContainer").innerHTML = "";}, 4000);
 }
 
 function handleData(JSONdata) {
