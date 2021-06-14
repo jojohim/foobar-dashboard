@@ -1,11 +1,8 @@
-
-
 //variables
 let queueSelected = true;
 let globalQueue = [];
-let globalServing = [];
-  
-  
+let globalServing = [];;
+
 export function setToggleOrdersListener() {
     const buttons = document.querySelectorAll(".orderStatusFilter");
     buttons.forEach(function (button) {
@@ -22,9 +19,9 @@ export function setToggleOrdersListener() {
     });
   }
 
-export function handleOrders(JSONdata) { 
+export function handleOrders(JSONdata) {
+
     //empty serving array
-    globalServing = [];
     const queueItems = JSONdata.queue;
     const servingItems = JSONdata.serving;
   
@@ -45,22 +42,20 @@ export function handleOrders(JSONdata) {
     toggleNoOrderPlaceholder();
 }
 
-
 function checkIfServing(){
     if (queueSelected) {
-      document.querySelector(".orderList").innerHTML = "";
       document.querySelector("#orders h1").textContent = "Queue";
       globalQueue.forEach((order) => displayOrder(order, true));
       document.querySelector(".servingFilter").classList.remove("active");
       document.querySelector("#orders").style.backgroundColor = "rgba(71,140,250,1.0)";
       document.querySelector("#orderNav").style.backgroundColor = "rgba(71,140,250,1.0)";
-      document.querySelector(".queueFilter").classList.add("active"); //for each order display
+      document.querySelector(".queueFilter").classList.add("active"); 
     } else {
-      document.querySelector(".orderList").innerHTML = "";
+
       document.querySelector("#orders h1").textContent = "Now Serving";
-      document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
+      document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       document.querySelector("#orders").style.backgroundColor = "rgba(51,106,194,1.0)";
       document.querySelector(".queueFilter").classList.remove("active");
     }
@@ -111,6 +106,7 @@ function getOrderItems(order) {
     //populate clone
     copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5
     copy.querySelector(".timestamp").textContent = order.timestamp;
+    copy.querySelector(".orderContainer").dataset.id = order.id;
   
     const ul = document.createElement('ul');
     order.order.forEach(order => {
@@ -119,7 +115,6 @@ function getOrderItems(order) {
       ul.appendChild(li);
     })
 
-    //add urgent class to copy
     copy.querySelector(".order").appendChild(ul);
     copy.querySelector(".orderTotal").textContent = `Total: ${order.total}`;
     copy.querySelector(".serveButton").dataset.id = order.id;

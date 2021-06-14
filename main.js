@@ -4,22 +4,49 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-
-const headers = {
-  "Content-Type": "application/json; charset=utf-8",
-  "cache-control": "no-cache",
-};
+import {getBarStatus} from './modules/getData.js'
 
 window.addEventListener("DOMContentLoaded", start);
 
 //GLOBAL ARRAYS
 
-function start() {
+async function start() {
   loadJSON();
   setEventListeners();
   setTimeAndDate();
+
+  const jsonURL = "https://carrotsfoobar.herokuapp.com/";
+  let newData = await getBarStatus(jsonURL);
+  let oldData = [];
+
+  //set intital data
+  handleData(newData);
+
+  //set global interval to update data 
+  setInterval(updateDataArrays, 5000);
+
+  async function updateDataArrays(){
+  
+  //update new data and set old data to oldData
+  oldData = newData;
+  newData = await getBarStatus(jsonURL);
+
+  //remove, update and add data by comparing the two
+    //ORDERS
+    handleOrders(newData);
+
+    //BARTENDERS
+  handleBartenders(newData.bartenders);
+
+    //KEG STORAGE 
+    handleKegStorage(newData.storage);
+
+  }
 }
 
+//function findOrdersToRemove(newData, oldData){
+//forEach 
+//}
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListener();
@@ -27,20 +54,21 @@ function setEventListeners() {
 }
 
 async function loadJSON() {
-  const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
-  const JSONdata = await dataResponse.json();
+  /*const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
+  const JSONdata = await dataResponse.json();*/
+
   const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
   const JSONbeers = await beerInfoResponse.json()
 
+
   //once fetched, prepare data
-  handleData(JSONdata);
   handleBeerInfo(JSONbeers);
 }
 
 function handleData(JSONdata) {
-  console.log(JSONdata)
+
   //HANDLE ORDERS
-  setInterval(function(){handleOrders(JSONdata)}, 4000);
+  //setInterval(function(){handleOrders(JSONdata)}, 4000);
   handleOrders(JSONdata);
 
   //HANDLE TAPS
@@ -48,13 +76,15 @@ function handleData(JSONdata) {
 
 
   //HANDLE BARTENDERS
-  setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
+  //setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
   handleBartenders(JSONdata.bartenders);
 
   //HANDLE KEG STORAGE
-  setInterval(function(){handleKegStorage(JSONdata.storage)}, 5000);
+  //setInterval(function(){handleKegStorage(JSONdata.storage)}, 5000);
   handleKegStorage(JSONdata.storage);
 }
+
+
 
 ////////DATE AND TIME CONVERSIONS////////////
 
