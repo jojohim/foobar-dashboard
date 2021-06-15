@@ -1,7 +1,9 @@
 //variables
 let queueSelected = true;
 let globalQueue = [];
-let globalServing = [];;
+let globalServing = [];
+
+//let uniqueQueue = [...new Set(...globalQueue)];
 
 export function setToggleOrdersListener() {
     const buttons = document.querySelectorAll(".orderStatusFilter");
@@ -21,7 +23,12 @@ export function setToggleOrdersListener() {
 
 export function handleOrders(JSONdata) {
 
-    //empty serving array
+  globalServing = [];
+  document.querySelector(".orderList").innerHTML = "";
+
+  globalQueue = [];
+  document.querySelector(".orderList").innerHTML = "";
+
     const queueItems = JSONdata.queue;
     const servingItems = JSONdata.serving;
   
@@ -31,12 +38,14 @@ export function handleOrders(JSONdata) {
       const queueItem = getOrderItems(queue);
       globalQueue.push(queueItem);
     });
+
     ////for serving
     servingItems.forEach((serving) => {
       const servingItem = getOrderItems(serving);
       globalServing.push(servingItem);
     });
 
+    console.log(globalServing);
     checkIfServing();
     displayOrderLength();
     toggleNoOrderPlaceholder();
@@ -51,7 +60,6 @@ function checkIfServing(){
       document.querySelector("#orderNav").style.backgroundColor = "rgba(71,140,250,1.0)";
       document.querySelector(".queueFilter").classList.add("active"); 
     } else {
-
       document.querySelector("#orders h1").textContent = "Now Serving";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
@@ -104,7 +112,7 @@ function getOrderItems(order) {
     }
   
     //populate clone
-    copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5
+    copy.querySelector(".tableNumber").textContent = `#${order.id}`//`Table: ${order.tableNumber}`; //random number between 1 & 5
     copy.querySelector(".timestamp").textContent = order.timestamp;
     copy.querySelector(".orderContainer").dataset.id = order.id;
   

@@ -5,6 +5,7 @@ import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
 import {getBarStatus, getNotes} from './modules/getData.js'
+import {handleNotes} from './modules/notes'
 
 window.addEventListener("DOMContentLoaded", start);
 
@@ -23,7 +24,7 @@ async function start() {
   let newNotes = await getNotes(notesURL);
 
   //set intital data
-  handleData(newData);
+  handleInitData(newData);
   handleNotes(newNotes);
 
   //set global interval to update data 
@@ -40,17 +41,16 @@ async function start() {
     handleOrders(newData);
 
     //BARTENDERS
-  handleBartenders(newData.bartenders);
+    handleBartenders(newData.bartenders);
 
     //KEG STORAGE 
     handleKegStorage(newData.storage);
 
+    //TAPS 
+    handleTaps(newData.taps)
   }
 }
 
-//function findOrdersToRemove(newData, oldData){
-//forEach 
-//}
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListener();
@@ -69,39 +69,19 @@ async function loadJSON() {
   handleBeerInfo(JSONbeers);
 }
 
-function handleNotes(notes){
-  notes.forEach(displayNote);
-}
-
-function displayNote(note){
-//make copy
-const copy = document.querySelector("template#noteTemplate").content.cloneNode(true);
-//populate 
-copy.querySelector(".noteHeader").textContent = `${note.name} on ${note.date}`;
-copy.querySelector(".noteText").textContent = note.text;
-//append
-document.getElementById("notesContainer").appendChild(copy);
-
-//setInterval(function(){ console.log("cleared"); document.getElementById("notesContainer").innerHTML = "";}, 4000);
-}
-
-function handleData(JSONdata) {
+function handleInitData(newData) {
 
   //HANDLE ORDERS
-  //setInterval(function(){handleOrders(JSONdata)}, 4000);
-  handleOrders(JSONdata);
+  handleOrders(newData);
 
   //HANDLE TAPS
-  handleTaps(JSONdata.taps);
-
+  handleTaps(newData.taps);
 
   //HANDLE BARTENDERS
-  //setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
-  handleBartenders(JSONdata.bartenders);
+  handleBartenders(newData.bartenders);
 
   //HANDLE KEG STORAGE
-  //setInterval(function(){handleKegStorage(JSONdata.storage)}, 5000);
-  handleKegStorage(JSONdata.storage);
+  handleKegStorage(newData.storage);
 }
 
 

@@ -1,9 +1,9 @@
-//VARS FOR BAR STATUS DATA
+//HEADER FOR BAR STATUS DATA
 const barStatusHeaders = {
     "Content-Type": "application/json",
 };
 
-//VARS FOR NOTES DATA
+//HEADER FOR NOTES DATA
 const apiKey = "60c48116e2c96c46a2463480";
 
 const notesHeaders = {
