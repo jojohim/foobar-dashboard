@@ -1,6 +1,8 @@
 //variables
 let queueSelected = true;
 let globalQueue = [];
+console.log(globalQueue);
+console.log(Date.now());
 let globalServing = [];
 
 //let uniqueQueue = [...new Set(...globalQueue)];
@@ -45,8 +47,8 @@ export function handleOrders(JSONdata) {
       globalServing.push(servingItem);
     });
 
-    console.log(globalServing);
     checkIfServing();
+    checkIfUrgent();
     displayOrderLength();
     toggleNoOrderPlaceholder();
 }
@@ -94,7 +96,8 @@ function getOrderItems(order) {
     //return order with cleaned objects
     return {
       id: order.id,
-      timestamp: convertTime(order.startTime),
+      timestamp: order.startTime,
+      parsedTime: convertTime(order.startTime),
       order: parsedOrder,
       tableNumber: Math.floor(Math.random() * 5) + 1,
       total: order.order.length,
@@ -113,7 +116,7 @@ function getOrderItems(order) {
   
     //populate clone
     copy.querySelector(".tableNumber").textContent = `#${order.id}`//`Table: ${order.tableNumber}`; //random number between 1 & 5
-    copy.querySelector(".timestamp").textContent = order.timestamp;
+    copy.querySelector(".timestamp").textContent = order.parsedTime;
     copy.querySelector(".orderContainer").dataset.id = order.id;
   
     const ul = document.createElement('ul');
@@ -129,6 +132,18 @@ function getOrderItems(order) {
   
     //append
     document.querySelector("#orders .orderList").appendChild(copy);
+  }
+
+  function checkIfUrgent(){
+    globalQueue.forEach(function(order) { 
+      const timeDifference = ((Date.now() - order.timestamp) / 6000).toFixed(1);
+      
+      if(timeDifference > 3){
+      document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
+      } else {
+        return;
+      }
+    });
   }
 
 //EXPORT TIME FOR ORDERS BUT ALSO FOR GLOBAL CLOCK
