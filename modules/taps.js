@@ -4,7 +4,6 @@ let globalTapLevels = [];
 export function handleTaps(taps){
   document.querySelector("#taps").innerHTML ="";
     globalTapLevels = [];
-    console.log(taps);
     globalTapLevels = taps;
     globalTapLevels.forEach(makeChartFromTaps);
   }

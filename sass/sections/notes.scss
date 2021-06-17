@@ -7,6 +7,13 @@
         position: sticky;
         top: 0;
     }
+
+    form{
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+        padding-top: 1vw;
+    }
 }
 
 .note{
@@ -36,4 +43,49 @@
         font-size: clamp(12px, 0.7em, 0.7em);
     }
 }
+
+//FORM
+
+#noteForm{
+    display: flex;
+    resize: none;
+    margin: 0 1vw;
+
+    #noteTextArea{
+        width: 75%;
+        resize: none;
+        display: inline;
+    }
+
+    input{
+        background-image: url("sent-icon.svg");
+        background-size: 1.5vw;
+        background-position: center;
+        width: 1.5vw;
+        margin-left: 0.5vw;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+    }
+
+    input:hover{
+        cursor: pointer;
+    }
+}
+
+.noteTextArea{
+    border: 1px solid $base-color;
+    font-family: inherit;
+    border-radius: 20px;
+    font-size: inherit;
+    padding: 1vh 1vw;
+    width: 100%;
+    overflow: hidden;
+    resize: none;
+    min-height: 40px;
+    line-height: 20px;
+  }
+
+
+
 

@@ -1,4 +1,5 @@
 export function handleNotes(notes){
+    document.querySelector("#notesContainer").innerHTML ="";
     notes.forEach(displayNote);
   }
   

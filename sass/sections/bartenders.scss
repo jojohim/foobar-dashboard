@@ -2,6 +2,11 @@
     @include sectionBox;
     margin: 0vw 2vw 1vw 1vw;
     position: relative;
+
+    h1{
+        position: sticky;
+        top: 0;
+    }
 }
 
 img.bartenderPhoto{

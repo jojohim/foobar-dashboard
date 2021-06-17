@@ -4,12 +4,10 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-import {getBarStatus, getNotes} from './modules/getData.js'
+import {getBarStatus, getNotes, postNotes} from './modules/helpers.js'
 import {handleNotes} from './modules/notes'
 
 window.addEventListener("DOMContentLoaded", start);
-
-//GLOBAL ARRAYS
 
 async function start() {
   loadJSON();
@@ -22,50 +20,74 @@ async function start() {
 
   const notesURL = "https://kea2021-6773.restdb.io/rest/foobar-notes";
   let newNotes = await getNotes(notesURL);
+  let oldNotes = [];
 
   //set intital data
   handleInitData(newData);
-  handleNotes(newNotes);
+  handleNotes(newNotes.reverse());
 
-  //set global interval to update data 
+  //interval to update data 
   setInterval(updateDataArrays, 5000);
+  setInterval(updateNotes, 5000);
 
   async function updateDataArrays(){
   
   //update new data and set old data to oldData
   oldData = newData;
   newData = await getBarStatus(jsonURL);
-
-  //remove, update and add data by comparing the two
     //ORDERS
     handleOrders(newData);
-
     //BARTENDERS
     handleBartenders(newData.bartenders);
-
     //KEG STORAGE 
     handleKegStorage(newData.storage);
-
     //TAPS 
     handleTaps(newData.taps)
   }
+
+  async function updateNotes(){
+    oldNotes = newNotes;
+    newNotes = await getNotes(notesURL);
+
+    handleNotes(newNotes.reverse());
+  }
 }
+
 
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListener();
   optionChangeListener();
+
+  //for notes form submission
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", (e) => {
+    console.log("submiited");
+    e.preventDefault();
+
+    let day = new Date().getDate();
+    let month = months[new Date().getMonth()];
+    let minutes = String(new Date().getMinutes()).padStart(2, "0");
+    let hours = new Date().getHours();
+
+    postNotes({
+      text: document.querySelector(".noteTextArea").innerHTML,
+      name: "Me",
+      date:`${day} ${month} at ${hours}:${minutes}`,
+    })
+
+    document.querySelector(".noteTextArea").innerHTML ="";
+
+  })
 }
 
 async function loadJSON() {
-  /*const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
-  const JSONdata = await dataResponse.json();*/
 
   const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
   const JSONbeers = await beerInfoResponse.json()
 
-
-  //once fetched, prepare data
   handleBeerInfo(JSONbeers);
 }
 
@@ -73,18 +95,13 @@ function handleInitData(newData) {
 
   //HANDLE ORDERS
   handleOrders(newData);
-
   //HANDLE TAPS
   handleTaps(newData.taps);
-
   //HANDLE BARTENDERS
   handleBartenders(newData.bartenders);
-
   //HANDLE KEG STORAGE
   handleKegStorage(newData.storage);
 }
-
-
 
 ////////DATE AND TIME CONVERSIONS////////////
 
@@ -98,7 +115,7 @@ function getCurrentTime() {
 }
 
 
-//MEDIA QUERIES
+////////////MEDIA QUERIES//////////////
 
 const ordersShowing = false;
 const orderSection = document.querySelector("#orders");

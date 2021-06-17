@@ -31,3 +31,13 @@ export async function getNotes(notesURL) {
     return notesData;
 }
 
+export function postNotes(data){
+
+        const postData = JSON.stringify(data);
+        fetch("https://kea2021-6773.restdb.io/rest/foobar-notes", {
+          method: "post",
+          headers: notesHeaders,
+          body: postData,
+        })
+          .then((res) => res.json())
+}
