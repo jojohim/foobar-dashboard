@@ -16,15 +16,14 @@ async function start() {
 
   const jsonURL = "https://carrotsfoobar.herokuapp.com/";
   let newData = await getBarStatus(jsonURL);
-  let oldData = [];
 
   const notesURL = "https://kea2021-6773.restdb.io/rest/foobar-notes";
   let newNotes = await getNotes(notesURL);
-  let oldNotes = [];
+  let sortedNotes = sortNotes(newNotes);
 
   //set intital data
   handleInitData(newData);
-  handleNotes(newNotes.reverse());
+  handleNotes(sortedNotes);
 
   //interval to update data 
   setInterval(updateDataArrays, 5000);
@@ -33,7 +32,6 @@ async function start() {
   async function updateDataArrays(){
   
   //update new data and set old data to oldData
-  oldData = newData;
   newData = await getBarStatus(jsonURL);
     //ORDERS
     handleOrders(newData);
@@ -46,11 +44,16 @@ async function start() {
   }
 
   async function updateNotes(){
-    oldNotes = newNotes;
     newNotes = await getNotes(notesURL);
-
-    handleNotes(newNotes.reverse());
+    sortedNotes = sortNotes(newNotes);
+    handleNotes(sortedNotes);
   }
+}
+
+function sortNotes(newNotes){
+  let sortedNotes = newNotes.sort((a,b) => b.timestamp - a.timestamp);
+
+  return sortedNotes;
 }
 
 
@@ -58,27 +61,33 @@ async function start() {
 function setEventListeners() {
   setToggleOrdersListener();
   optionChangeListener();
+  submitNoteListener();
+}
 
+function submitNoteListener(){
   //for notes form submission
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const form = document.querySelector("form");
 
   form.addEventListener("submit", (e) => {
-    console.log("submiited");
+    document.querySelector("input").classList.add("clicked");
     e.preventDefault();
+
 
     let day = new Date().getDate();
     let month = months[new Date().getMonth()];
     let minutes = String(new Date().getMinutes()).padStart(2, "0");
     let hours = new Date().getHours();
+    let textToSubmit = document.querySelector(".noteTextArea").innerHTML;
 
     postNotes({
-      text: document.querySelector(".noteTextArea").innerHTML,
+      text: textToSubmit,
       name: "Me",
       date:`${day} ${month} at ${hours}:${minutes}`,
+      timestamp: Date.now(),
     })
 
-    document.querySelector(".noteTextArea").innerHTML ="";
+    textToSubmit ="";
 
   })
 }
@@ -117,7 +126,6 @@ function getCurrentTime() {
 
 ////////////MEDIA QUERIES//////////////
 
-const ordersShowing = false;
 const orderSection = document.querySelector("#orders");
 const showHideOrdersButton = document.querySelector("#showHideOrders")
 const mediaQuery = window.matchMedia('(max-width: 1100px)');
