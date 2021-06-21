@@ -26,8 +26,8 @@ async function start() {
   handleNotes(sortedNotes);
 
   //interval to update data 
-  setInterval(updateDataArrays, 5000);
-  setInterval(updateNotes, 2000);
+  setInterval(updateDataArrays, 4000);
+  setInterval(updateNotes, 4000);
 
   async function updateDataArrays(){
   
