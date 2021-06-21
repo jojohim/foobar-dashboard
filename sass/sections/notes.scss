@@ -7,6 +7,13 @@
         position: sticky;
         top: 0;
     }
+
+    form{
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+        padding-top: 1vw;
+    }
 }
 
 .note{
@@ -14,11 +21,11 @@
     border-radius: 10px;
     margin: 0.7vw 0;
     padding: 1em;
+    position: relative;
 }
 
 #notesContainer{
     padding: 1vw 2vw;
-
 }
 
 .noteStamp{
@@ -27,7 +34,9 @@
 
     img{
         height: 1.5em;
+        transform: rotate(-45deg);
         width: auto;
+        margin-top: -0.5em;
         margin-right: 1em;
     }
 
@@ -35,4 +44,66 @@
         font-size: clamp(12px, 0.7em, 0.7em);
     }
 }
+
+//FORM
+
+#noteForm{
+    display: flex;
+    margin: 0 2vw;
+
+    #noteTextArea{
+        width: 75%;
+        resize: none;
+        display: inline;
+    }
+
+    input{
+        background-image: url("submit-icon.svg");
+        margin-left: 0.5vw;
+    }
+
+    input:hover{
+        cursor: pointer;
+    }
+}
+
+.noteTextArea{
+    border: 1px solid $base-color;
+    font-family: inherit;
+    border-radius: 20px;
+    font-size: inherit;
+    padding: 1vh 1vw;
+    margin-bottom: 1vh;
+    width: 100%;
+    overflow: hidden;
+    resize: none;
+    min-height: 40px;
+    line-height: 20px;
+  }
+  
+#noteForm input, 
+.deleteNote{
+    background-size: 1.5em;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    width: 1.5em;
+}
+
+.deleteNote{
+    background-image: url("check-icon.svg");
+    position: absolute;
+    height: 1.5em;
+    right: 1vw;
+    top: 0.5vw;
+}
+
+.deleteNote:focus,
+.noteTextArea:focus{
+    outline: none;
+}
+
+
+
 

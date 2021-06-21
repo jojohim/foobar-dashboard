@@ -7,7 +7,6 @@ export function handleTaps(taps){
     globalTapLevels = taps;
     globalTapLevels.forEach(makeChartFromTaps);
   }
-
 function makeChartFromTaps(tap) {
 
 

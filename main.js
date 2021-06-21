@@ -4,79 +4,77 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-import {headers} from './modules/settings.js'
-
+import {getBarStatus} from './modules/helpers.js'
+import {handleNotes, sortNotes, postNoteListener, getNotes} from './modules/notes'
 
 window.addEventListener("DOMContentLoaded", start);
 
-//GLOBAL ARRAYS
-
-function start() {
+async function start() {
   loadJSON();
   setEventListeners();
   setTimeAndDate();
-  getNotes();
+
+  const jsonURL = "https://carrotsfoobar.herokuapp.com/";
+  let newData = await getBarStatus(jsonURL);
+
+  const notesURL = "https://kea2021-6773.restdb.io/rest/foobar-notes";
+  let newNotes = await getNotes(notesURL);
+  let sortedNotes = sortNotes(newNotes);
+
+  //set intital data
+  handleInitData(newData);
+  handleNotes(sortedNotes);
+
+  //interval to update data 
+  setInterval(updateDataArrays, 5000);
+  setInterval(updateNotes, 5000);
+
+  async function updateDataArrays(){
+  
+  //update new data and set old data to oldData
+  newData = await getBarStatus(jsonURL);
+    //ORDERS
+    handleOrders(newData);
+    //BARTENDERS
+    handleBartenders(newData.bartenders);
+    //KEG STORAGE 
+    handleKegStorage(newData.storage);
+    //TAPS 
+    handleTaps(newData.taps)
+  }
+
+  async function updateNotes(){
+    newNotes = await getNotes(notesURL);
+    sortedNotes = sortNotes(newNotes);
+    handleNotes(sortedNotes);
+  }
 }
+
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListener();
   optionChangeListener();
+  postNoteListener();
 }
 
 async function loadJSON() {
-  const dataResponse = await fetch("https://carrotsfoobar.herokuapp.com/");
-  const JSONdata = await dataResponse.json();
 
   const beerInfoResponse = await fetch ("https://carrotsfoobar.herokuapp.com/beertypes");
   const JSONbeers = await beerInfoResponse.json();
 
-  //once fetched, prepare data
-  handleData(JSONdata);
   handleBeerInfo(JSONbeers);
 }
 
-async function getNotes(){
-  const notesResponse = await fetch("https://kea2021-6773.restdb.io/rest/foobar-notes", {
-    method: "get",
-    headers: headers,});
-  const JSONnotes = await notesResponse.json();
+function handleInitData(newData) {
 
-  handleNotes(JSONnotes);
-}
-
-function handleNotes(notes){
-  notes.forEach(displayNote);
-}
-
-function displayNote(note){
-//make copy
-const copy = document.querySelector("template#noteTemplate").content.cloneNode(true);
-//populate 
-copy.querySelector(".noteHeader").textContent = `${note.name} at ${note.date}`;
-copy.querySelector(".noteText").textContent = note.text;
-//append
-document.getElementById("notesContainer").appendChild(copy);
-
-//setInterval(function(){ console.log("cleared"); document.getElementById("notesContainer").innerHTML = "";}, 4000);
-}
-
-function handleData(JSONdata) {
-  console.log(JSONdata)
   //HANDLE ORDERS
-  setInterval(function(){handleOrders(JSONdata)}, 4000);
-  handleOrders(JSONdata);
-
+  handleOrders(newData);
   //HANDLE TAPS
-  handleTaps(JSONdata.taps);
-
-
+  handleTaps(newData.taps);
   //HANDLE BARTENDERS
-  setInterval(function(){handleBartenders(JSONdata.bartenders)}, 5000);
-  handleBartenders(JSONdata.bartenders);
-
+  handleBartenders(newData.bartenders);
   //HANDLE KEG STORAGE
-  setInterval(function(){handleKegStorage(JSONdata.storage)}, 5000);
-  handleKegStorage(JSONdata.storage);
+  handleKegStorage(newData.storage);
 }
 
 ////////DATE AND TIME CONVERSIONS////////////
@@ -91,9 +89,8 @@ function getCurrentTime() {
 }
 
 
-//MEDIA QUERIES
+////////////MEDIA QUERIES//////////////
 
-const ordersShowing = false;
 const orderSection = document.querySelector("#orders");
 const showHideOrdersButton = document.querySelector("#showHideOrders")
 const mediaQuery = window.matchMedia('(max-width: 1100px)');

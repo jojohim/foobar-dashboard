@@ -1,10 +1,9 @@
-
-
 //variables
 let queueSelected = true;
 let globalQueue = [];
 let globalServing = [];
-   
+
+
 export function setToggleOrdersListener() {
     const buttons = document.querySelectorAll(".orderStatusFilter");
     buttons.forEach(function (button) {
@@ -21,9 +20,14 @@ export function setToggleOrdersListener() {
     });
   }
 
-export function handleOrders(JSONdata) { 
-    //empty serving array
-    globalServing = [];
+export function handleOrders(JSONdata) {
+
+  globalServing = [];
+  document.querySelector(".orderList").innerHTML = "";
+
+  globalQueue = [];
+  document.querySelector(".orderList").innerHTML = "";
+
     const queueItems = JSONdata.queue;
     const servingItems = JSONdata.serving;
   
@@ -33,6 +37,7 @@ export function handleOrders(JSONdata) {
       const queueItem = getOrderItems(queue);
       globalQueue.push(queueItem);
     });
+
     ////for serving
     servingItems.forEach((serving) => {
       const servingItem = getOrderItems(serving);
@@ -40,25 +45,36 @@ export function handleOrders(JSONdata) {
     });
 
     checkIfServing();
+    checkIfUrgent(queueItems);
     displayOrderLength();
     toggleNoOrderPlaceholder();
 }
 
+function checkIfUrgent(queueItems){
+  queueItems.forEach(function(order) { 
+    const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(1);
+    console.log(timeDifference)
+    if(timeDifference > 5){
+    document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
+    } else {
+      return;
+    }
+  });
+}
+
 function checkIfServing(){
     if (queueSelected) {
-      document.querySelector(".orderList").innerHTML = "";
       document.querySelector("#orders h1").textContent = "Queue";
       globalQueue.forEach((order) => displayOrder(order, true));
       document.querySelector(".servingFilter").classList.remove("active");
       document.querySelector("#orders").style.backgroundColor = "rgba(71,140,250,1.0)";
       document.querySelector("#orderNav").style.backgroundColor = "rgba(71,140,250,1.0)";
-      document.querySelector(".queueFilter").classList.add("active"); //for each order display
+      document.querySelector(".queueFilter").classList.add("active"); 
     } else {
-      document.querySelector(".orderList").innerHTML = "";
       document.querySelector("#orders h1").textContent = "Now Serving";
-      document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       globalServing.forEach((order) => displayOrder(order, false));
       document.querySelector(".servingFilter").classList.add("active");
+      document.querySelector("#orderNav").style.backgroundColor = "rgba(51,106,194,1.0)";
       document.querySelector("#orders").style.backgroundColor = "rgba(51,106,194,1.0)";
       document.querySelector(".queueFilter").classList.remove("active");
     }
@@ -67,7 +83,7 @@ function checkIfServing(){
 function toggleNoOrderPlaceholder(){
   if (globalQueue.length == 0 && queueSelected){
       document.querySelector("#noOrdersPlaceholder").classList.remove("hidden");
-    } else if(!queueSelected){
+    } else{
       document.querySelector("#noOrdersPlaceholder").classList.add("hidden");
   }
 }
@@ -89,7 +105,8 @@ function getOrderItems(order) {
     //return order with cleaned objects
     return {
       id: order.id,
-      timestamp: convertTime(order.startTime),
+      timestamp: order.startTime,
+      parsedTime: convertTime(order.startTime),
       order: parsedOrder,
       tableNumber: Math.floor(Math.random() * 5) + 1,
       total: order.order.length,
@@ -107,8 +124,9 @@ function getOrderItems(order) {
     }
   
     //populate clone
-    copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5
-    copy.querySelector(".timestamp").textContent = order.timestamp;
+    copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5 `#${order.id}`
+    copy.querySelector(".timestamp").textContent = order.parsedTime;
+    copy.querySelector(".orderContainer").dataset.id = order.id;
   
     const ul = document.createElement('ul');
     order.order.forEach(order => {
@@ -117,7 +135,6 @@ function getOrderItems(order) {
       ul.appendChild(li);
     })
 
-    //add urgent class to copy
     copy.querySelector(".order").appendChild(ul);
     copy.querySelector(".orderTotal").textContent = `Total: ${order.total}`;
     copy.querySelector(".serveButton").dataset.id = order.id;
@@ -125,6 +142,7 @@ function getOrderItems(order) {
     //append
     document.querySelector("#orders .orderList").appendChild(copy);
   }
+
 
 //EXPORT TIME FOR ORDERS BUT ALSO FOR GLOBAL CLOCK
 
