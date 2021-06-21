@@ -4,10 +4,11 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-import {getBarStatus} from './modules/helpers.js'
+import {getBarStatus, textarea, expandTextArea} from './modules/helpers.js'
 import {handleNotes, sortNotes, postNoteListener, getNotes} from './modules/notes'
 
 window.addEventListener("DOMContentLoaded", start);
+
 
 async function start() {
   loadJSON();
@@ -55,6 +56,7 @@ function setEventListeners() {
   setToggleOrdersListener();
   optionChangeListener();
   postNoteListener();
+  textarea.addEventListener("input", expandTextArea)
 }
 
 async function loadJSON() {

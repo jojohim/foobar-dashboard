@@ -55,13 +55,16 @@ function displayNote(note){
       let hours = new Date().getHours();
   
       postNotes({
-        text: document.querySelector(".noteTextArea").textContent,
+        text: document.querySelector("textarea").value,
         name: "Me",
         date:`${day} ${month} at ${hours}:${minutes}`,
         timestamp: Date.now(),
       })
-  
-      document.querySelector(".noteTextArea").innerHTML = "";
+
+
+      //reset textarea
+      document.querySelector("textarea").value = "";
+      document.querySelector("textarea").style.height = "2.5em";
   
     })
   }
