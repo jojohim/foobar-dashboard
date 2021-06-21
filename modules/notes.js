@@ -85,12 +85,11 @@ function displayNote(note){
 
     button.addEventListener("click", function() {
     
-    //button.classList.add("clicked");
     console.log(button)
     button.querySelector(".loadingIcon").classList.remove("hidden");
     button.querySelector(".deleteIcon").classList.add("hidden");
     button.classList.add("load");
-    
+
     fetch(`${notesURL}/` + id, {
       method: "delete",
       headers: notesHeaders,

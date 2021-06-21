@@ -53,7 +53,7 @@ export function handleOrders(JSONdata) {
 function checkIfUrgent(queueItems){
   queueItems.forEach(function(order) { 
     const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(1);
-    if(timeDifference > 5){
+    if(timeDifference > 1){
     document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
     } else {
       return;

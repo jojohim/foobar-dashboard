@@ -27,7 +27,7 @@ async function start() {
 
   //interval to update data 
   setInterval(updateDataArrays, 5000);
-  setInterval(updateNotes, 5000);
+  setInterval(updateNotes, 2000);
 
   async function updateDataArrays(){
   
