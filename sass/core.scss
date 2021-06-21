@@ -38,23 +38,7 @@ $border-radius: 0px 0px 20px 20px;
         transform: rotate(450deg);
       }
 }
-.clicked{
-animation: 0.7s clicked ease-in-out;
-}
 
-@keyframes clicked{
-    0%{
-        transform: scale(1);
-    }
-
-    50%{
-        transform: scale(1.1);
-    }
-
-    100%{
-        transform: scale(1);
-    }
-}
 .coloredHeader{
     background-color: $base-color;
     position: absolute;
