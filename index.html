@@ -104,17 +104,16 @@
     <div id="notesContainer">
     </div>
     <form id="noteForm">
-      <div class="noteTextArea" name="noteText" role="textbox" placeholder="type message..." contenteditable required>
-    </div>
-      <input type="submit" value=""/>
+      <div class="noteTextArea" name="noteText" role="textbox" placeholder="type message..." contenteditable required></div>
+      <button type="submit"><img src="submit-icon.svg"></button>
   </form>
     </section>
     <template id="noteTemplate">
       <div class="note">
         <div class="noteStamp">
-        <img src="sent-icon.svg" alt="message sent icon in blue" width="22px" height="25px">
+        <img src="sent-icon.svg" alt="message sent icon in blue" class="sentIcon" width="22px" height="25px">
         <p class="noteHeader"></p>
-        <button class="deleteNote"></button>
+        <button class="deleteNote"><img src="check-icon.svg" class="deleteIcon"><img src="loading-icon.svg" class="loadingIcon hidden"></button>
       </div>
         <p class="noteText"></p>
       </div>

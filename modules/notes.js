@@ -86,9 +86,11 @@ function displayNote(note){
     button.addEventListener("click", function() {
     
     //button.classList.add("clicked");
-    button.style.backgroundImage = "url(loading-icon.svg)";
+    console.log(button)
+    button.querySelector(".loadingIcon").classList.remove("hidden");
+    button.querySelector(".deleteIcon").classList.add("hidden");
     button.classList.add("load");
-  
+    
     fetch(`${notesURL}/` + id, {
       method: "delete",
       headers: notesHeaders,

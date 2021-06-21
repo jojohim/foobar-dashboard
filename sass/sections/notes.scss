@@ -32,10 +32,9 @@
     display: flex;
     margin-bottom: 0.5vw;
 
-    img{
+    .sentIcon{
         height: 1.5em;
         transform: rotate(-45deg);
-        width: auto;
         margin-top: -0.5em;
         margin-right: 1em;
     }
@@ -81,22 +80,21 @@
     line-height: 20px;
   }
   
-#noteForm input, 
-.deleteNote{
-    background-size: 1.5em;
-    background-position: center;
-    background-repeat: no-repeat;
+#notes button img{
     background-color: transparent;
-    border: none;
     width: 1.5em;
+    height: 1.5em;
 }
 
 .deleteNote{
-    /*background-image: url("check-icon.svg");*/
     position: absolute;
-    height: 1.5em;
-    right: 1vw;
-    top: 0.5vw;
+    right: 5px;
+    top: 5px;
+}
+
+#notes button{
+    border: none;
+    background-color: transparent;
 }
 
 .deleteNote:focus,

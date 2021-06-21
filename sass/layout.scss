@@ -27,11 +27,13 @@ transition: 0.25s;
 
 article.bartender{
         padding: 2vw;
-        margin: 1vw 15vw;
+        margin-left: 15vw;
     }
 .note,
-.bartender{
-    margin: 2vh 8vh;
+.bartender,
+#noteForm{
+    margin-left: clamp(100px,12vh, 16vh);
+    margin-right: clamp(100px,12vh, 16vh);
 }
 
 }
