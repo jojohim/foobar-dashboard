@@ -19,7 +19,22 @@ export function sortNotes(newNotes){
     return sortedNotes;
   }
 
-export async function getNotes(notesURL) {
+function displayNote(note){
+  //make copy
+  const copy = document.querySelector("template#noteTemplate").content.cloneNode(true);
+  //populate 
+  copy.querySelector(".noteHeader").textContent = `${note.name} on ${note.date}`;
+  copy.querySelector(".noteText").textContent = note.text;
+  copy.querySelector(".deleteNote").id = note._id;
+  deleteNote(copy);
+
+  //append
+  document.getElementById("notesContainer").appendChild(copy);
+  }
+
+///////////GET/////////////
+
+  export async function getNotes(notesURL) {
     const response = await fetch(notesURL, {
         method: "get",
         headers: notesHeaders,
@@ -28,18 +43,18 @@ export async function getNotes(notesURL) {
     return notesData;
 }
 
-function displayNote(note){
-  //make copy
-  const copy = document.querySelector("template#noteTemplate").content.cloneNode(true);
-  //populate 
-  copy.querySelector(".noteHeader").textContent = `${note.name} on ${note.date}`;
-  copy.querySelector(".noteText").textContent = note.text;
-  copy.querySelector(".deleteNote").id = note._id;
-  deleteNoteListener(copy);
-  //append
-  document.getElementById("notesContainer").appendChild(copy);
+///////////POST/////////////
 
-  }
+  function post(note){
+    const postData = JSON.stringify(note);
+
+    fetch(notesURL, {
+      method: "post",
+      headers: notesHeaders,
+      body: postData,
+    })
+      .then((res) => res.json())
+}
 
   export function postNoteListener(){
     //for notes form submission
@@ -54,14 +69,13 @@ function displayNote(note){
       let minutes = String(new Date().getMinutes()).padStart(2, "0");
       let hours = new Date().getHours();
   
-      postNotes({
+      post({
         text: document.querySelector("textarea").value,
         name: "Me",
         date:`${day} ${month} at ${hours}:${minutes}`,
         timestamp: Date.now(),
       })
-
-
+    
       //reset textarea
       document.querySelector("textarea").value = "";
       document.querySelector("textarea").style.height = "2.5em";
@@ -69,19 +83,9 @@ function displayNote(note){
     })
   }
 
-  function postNotes(data){
+  /////////DELETE////////////
 
-    const postData = JSON.stringify(data);
-
-    fetch(notesURL, {
-      method: "post",
-      headers: notesHeaders,
-      body: postData,
-    })
-      .then((res) => res.json())
-}
-
-  function deleteNoteListener(copy){
+  function deleteNote(copy){
 
     const button = copy.querySelector(".deleteNote");
     const id = copy.querySelector(".deleteNote").id;
