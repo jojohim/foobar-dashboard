@@ -4,8 +4,8 @@ import {handleBartenders} from './modules/bartenders.js'
 import {handleTaps} from './modules/taps.js'
 import {convertTime, setToggleOrdersListener, handleOrders} from './modules/orders.js'
 import {handleKegStorage} from './modules/kegs.js'
-import {getBarStatus, getNotes, postNotes} from './modules/helpers.js'
-import {handleNotes} from './modules/notes'
+import {getBarStatus} from './modules/helpers.js'
+import {handleNotes, sortNotes, postNoteListener, getNotes} from './modules/notes'
 
 window.addEventListener("DOMContentLoaded", start);
 
@@ -50,46 +50,12 @@ async function start() {
   }
 }
 
-function sortNotes(newNotes){
-  let sortedNotes = newNotes.sort((a,b) => b.timestamp - a.timestamp);
-
-  return sortedNotes;
-}
-
 
 // Adding all listeners
 function setEventListeners() {
   setToggleOrdersListener();
   optionChangeListener();
-  submitNoteListener();
-}
-
-function submitNoteListener(){
-  //for notes form submission
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const form = document.querySelector("form");
-
-  form.addEventListener("submit", (e) => {
-    document.querySelector("input").classList.add("clicked");
-    e.preventDefault();
-
-
-    let day = new Date().getDate();
-    let month = months[new Date().getMonth()];
-    let minutes = String(new Date().getMinutes()).padStart(2, "0");
-    let hours = new Date().getHours();
-    let textToSubmit = document.querySelector(".noteTextArea").innerHTML;
-
-    postNotes({
-      text: textToSubmit,
-      name: "Me",
-      date:`${day} ${month} at ${hours}:${minutes}`,
-      timestamp: Date.now(),
-    })
-
-    textToSubmit ="";
-
-  })
+  postNoteListener();
 }
 
 async function loadJSON() {

@@ -1,8 +1,7 @@
 //variables
 let queueSelected = true;
 let globalQueue = [];
-console.log(globalQueue);
-console.log(Date.now());
+
 let globalServing = [];
 
 //let uniqueQueue = [...new Set(...globalQueue)];
@@ -48,7 +47,7 @@ export function handleOrders(JSONdata) {
     });
 
     checkIfServing();
-    checkIfUrgent();
+    checkIfUrgent(queueItems);
     displayOrderLength();
     toggleNoOrderPlaceholder();
 }
@@ -74,7 +73,7 @@ function checkIfServing(){
 function toggleNoOrderPlaceholder(){
   if (globalQueue.length == 0 && queueSelected){
       document.querySelector("#noOrdersPlaceholder").classList.remove("hidden");
-    } else if(!queueSelected){
+    } else{
       document.querySelector("#noOrdersPlaceholder").classList.add("hidden");
   }
 }
@@ -115,7 +114,7 @@ function getOrderItems(order) {
     }
   
     //populate clone
-    copy.querySelector(".tableNumber").textContent = `#${order.id}`//`Table: ${order.tableNumber}`; //random number between 1 & 5
+    copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5 `#${order.id}`
     copy.querySelector(".timestamp").textContent = order.parsedTime;
     copy.querySelector(".orderContainer").dataset.id = order.id;
   
@@ -134,11 +133,11 @@ function getOrderItems(order) {
     document.querySelector("#orders .orderList").appendChild(copy);
   }
 
-  function checkIfUrgent(){
-    globalQueue.forEach(function(order) { 
-      const timeDifference = ((Date.now() - order.timestamp) / 6000).toFixed(1);
-      
-      if(timeDifference > 3){
+  function checkIfUrgent(queueItems){
+    queueItems.forEach(function(order) { 
+      const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(1);
+      console.log(timeDifference)
+      if(timeDifference > 10){
       document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
       } else {
         return;

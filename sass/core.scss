@@ -24,6 +24,20 @@ $border-radius: 0px 0px 20px 20px;
     display: none;
 }
 
+.load{
+    animation: 1s loading infinite linear;
+    transform-origin: center;
+}
+
+@keyframes loading{
+    0% {
+        transform: rotate(70deg);
+      }
+
+      100% {
+        transform: rotate(450deg);
+      }
+}
 .clicked{
 animation: 0.7s clicked ease-in-out;
 }
