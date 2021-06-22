@@ -91,8 +91,7 @@ function displayNote(note){
     const id = copy.querySelector(".deleteNote").id;
 
     button.addEventListener("click", function() {
-    
-    console.log(button)
+      
     button.querySelector(".loadingIcon").classList.remove("hidden");
     button.querySelector(".deleteIcon").classList.add("hidden");
     button.classList.add("load");
