@@ -51,9 +51,11 @@ export function handleOrders(JSONdata) {
 }
 
 function checkIfUrgent(queueItems){
+  // : 60 to get 25minutes, : 60000 to get roughly 1 second
   queueItems.forEach(function(order) { 
-    const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(1);
-    if(timeDifference > 1){
+    const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(2);
+    console.log(timeDifference)
+    if(timeDifference > 1.5){
     document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
     } else {
       return;
@@ -123,7 +125,7 @@ function getOrderItems(order) {
     }
   
     //populate clone
-    copy.querySelector(".tableNumber").textContent = `Table: ${order.tableNumber}`; //random number between 1 & 5 `#${order.id}`
+    copy.querySelector(".tableNumber").textContent = `#${order.id}` // `Table: ${order.tableNumber}`; //random number between 1 & 5 
     copy.querySelector(".timestamp").textContent = order.parsedTime;
     copy.querySelector(".orderContainer").dataset.id = order.id;
   
