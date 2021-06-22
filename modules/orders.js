@@ -51,7 +51,7 @@ export function handleOrders(JSONdata) {
 }
 
 function checkIfUrgent(queueItems){
-  // : 60 to get 25minutes, : 60000 to get roughly 1 second
+  // : 60 to get 25minutes, 
   queueItems.forEach(function(order) { 
     const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(2);
     console.log(timeDifference)
