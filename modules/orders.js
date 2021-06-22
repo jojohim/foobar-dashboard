@@ -55,7 +55,7 @@ function checkIfUrgent(queueItems){
   queueItems.forEach(function(order) { 
     const timeDifference = ((Date.now() - order.startTime) / 6000).toFixed(2);
     console.log(timeDifference)
-    if(timeDifference > 1.5){
+    if(timeDifference > 1){
     document.querySelector(`#orders [data-id="${order.id}"]`).classList.add("urgent");
     } else {
       return;
